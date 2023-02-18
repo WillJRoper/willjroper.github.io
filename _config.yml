@@ -1,0 +1,13 @@
+# Site settings
+title: My Site
+description: A short description of my site
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "" # the base hostname & protocol for your site
+
+# Build settings
+remote_theme: pages-themes/hacker@v0.2.0
+plugins:
+  - jekyll-remote-theme # add this line to the plugins list if you already have one
+  - jekyll-feed # generates an RSS feed for your site
+  - jekyll-seo-tag # generates SEO meta tags for your site
+markdown: kramdown
