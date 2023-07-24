@@ -92,3 +92,25 @@ video {
 .about-me-section {
     padding: 40px;
 }
+
+.navigation-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background for the navigation bar */
+}
+
+.navigation-bar a {
+    color: white;
+    padding: 10px;
+    font-size: 24px;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.navigation-bar a:hover {
+    color: #ffcc00; /* Change the color when hovering over the icons */
+}
