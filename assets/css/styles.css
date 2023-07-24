@@ -95,7 +95,7 @@ video {
 
 .navigation-bar {
     position: absolute;
-    top: 0;
+    top: 0; /* Set the navigation bar to the top of the video section */
     left: 0;
     width: 100%;
     display: flex;
