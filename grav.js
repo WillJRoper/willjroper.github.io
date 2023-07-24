@@ -6,7 +6,7 @@ var icon2 = document.getElementById('about');
 // Add more icons as needed
 
 // Set up the gravitational constant (adjust as needed for your simulation)
-var G = 0.001;
+var G = 0.1;
 
 // Create an array to store the icons
 var icons = [icon1, icon2];
