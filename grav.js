@@ -57,8 +57,6 @@ function calculateGravitationalForceCentral(icon) {
 function updatePositions() {
     var containerWidth = window.innerWidth;
     var containerHeight = window.innerHeight;
-
-    var timestep = 0.1;
     
     for (var i = 0; i < icons.length; i++) {
         accelerations[i].x = 0;
@@ -77,12 +75,12 @@ function updatePositions() {
             }
         }
 
-        velocities[i].x += 0.5 * accelerations[i].x * (0.5 * timestep) ** 2;
-        velocities[i].y += 0.5 * accelerations[i].y * (0.5 * timestep) ** 2;
+        velocities[i].x += 0.5 * accelerations[i].x * 0.05 ** 2;
+        velocities[i].y += 0.5 * accelerations[i].y * 0.05 ** 2;
 
         // Update icon positions with periodic boundary conditions
-        var newLeft = (icons[i].offsetLeft + (velocities[i].x * timestep)) % containerWidth;
-        var newTop = (icons[i].offsetTop + (velocities[i].y * timestep)) % containerHeight;
+        var newLeft = (icons[i].offsetLeft + (velocities[i].x * 0.1)) % containerWidth;
+        var newTop = (icons[i].offsetTop + (velocities[i].y * 0.1)) % containerHeight;
         
         // Handle negative values (when the icon crosses the left or top boundary)
         newLeft = (newLeft >= 0) ? newLeft : containerWidth + newLeft;
@@ -93,8 +91,8 @@ function updatePositions() {
 
         console.log(icons[i].style.left, icons[i].style.top);
 
-        velocities[i].x += 0.5 * accelerations[i].x * (0.5 * timestep) ** 2;
-        velocities[i].y += 0.5 * accelerations[i].y * (0.5 * timestep) ** 2;
+        velocities[i].x += 0.5 * accelerations[i].x * 0.05 ** 2;
+        velocities[i].y += 0.5 * accelerations[i].y * 0.05 ** 2;
 
     }
     
