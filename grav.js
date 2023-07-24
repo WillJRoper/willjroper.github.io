@@ -11,7 +11,7 @@ var icon2 = document.getElementById('about');
 // Add more icons as needed
 
 // Set up the gravitational constant (adjust as needed for your simulation)
-var G = 0.0000001;
+var G = 0.00000001;
 
 // Create an array to store the icons
 var icons = [icon1, icon2];
@@ -75,7 +75,7 @@ function updatePositions() {
     var containerWidth = window.innerWidth;
     var containerHeight = window.innerHeight;
 
-    var timestep = 0.01;
+    var timestep = 0.001;
     var halfTimestep = timestep / 2;
     
     for (var i = 0; i < icons.length; i++) {
