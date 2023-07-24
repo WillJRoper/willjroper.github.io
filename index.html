@@ -1,106 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>About Me</title>
-	<style>
-		/* Add some basic styles to the page */
-		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 0;
-		}
-		h1 {
-			text-align: center;
-		}
-		img {
-			display: block;
-			margin: auto;
-			max-width: 100%;
-			height: auto;
-		}
-		.video-banner {
-			position: relative;
-			height: 400px;
-			overflow: hidden;
-		}
-		.video-banner video {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			min-width: 100%;
-			min-height: 100%;
-			width: auto;
-			height: auto;
-			z-index: -1;
-			/* Uncomment the following line to disable video autoplay on mobile devices */
-			/* object-fit: cover; */
-		}
-		.banner-text {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			text-align: center;
-			color: white;
-			text-shadow: 1px 1px 1px black;
-			font-size: 24px;
-			width: 100%;
-		}
-		.banner-text h2 {
-			margin: 0;
-			font-size: 36px;
-		}
-		.banner-text p {
-			margin: 10px 0;
-		}
-		/* Add styles for the navigation menu */
-		nav {
-			background-color: #333;
-			overflow: hidden;
-		}
-		nav a {
-			float: left;
-			color: white;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-		}
-		nav a:hover {
-			background-color: #ddd;
-			color: black;
-		}
-		nav a.active {
-			background-color: #4CAF50;
-			color: white;
-		}
-	</style>
+    <title>Video Background with Text Overlay</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<!-- Add a navigation menu -->
-	<nav>
-		<a class="active" href="#">Home</a>
-		<a href="#">Projects</a>
-		<a href="#">Blog</a>
-		<a href="#">Contact</a>
-	</nav>
-	
-	<!-- Add a banner with an autoplaying video -->
-	<div class="video-banner">
-		<video autoplay muted loop>
-			<source src="vidoes/EAGLE_12.5_Mpc_box_PhysicalDM.mp4" type="video/mp4">
-			Your browser does not support the video tag.
-		</video>
-		<div class="banner-text">
-			<h2>Welcome to my personal website</h2>
-			<p>Check out my latest projects and blog posts</p>
-		</div>
-	</div>
-	
-	<!-- Add some text about yourself -->
-	<h1>About Me</h1>
-	<img src="pictutes/profile.jpg" alt="Profile Picture">
-	<p>I'm Will Roper and I am a Researcher at the University of Sussex. I am passionate about [Your Interests] and enjoy [Your Hobbies]. On this website, you can find information about my latest projects and blog posts.</p>
-	
-	<!-- Add links to other pages -->
-	<h2>Navigation</h
+    <div class="video-container">
+        <video autoplay loop muted>
+            <source src="videos/EAGLE_12.5_Mpc_box _PhysicalDM.mp4" type="video/mp4">
+            <!-- Add other source tags for different video formats (WebM, Ogg) -->
+            Your browser does not support the video tag.
+        </video>
+        <div class="text-overlay">
+            <div class="profile-picture">
+                <img src="pictures/profile.jpeg" alt="Profile Picture">
+            </div>
+            <div class="text-content">
+                <h1>Dr Will Roper</h1>
+                <p>Computational Astrophysicist</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
