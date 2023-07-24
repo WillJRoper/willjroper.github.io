@@ -44,6 +44,8 @@ function updatePositions() {
             }
         }
 
+        console.log(accelerations[i].x, accelerations[i].y)
+
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
 
