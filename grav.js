@@ -82,8 +82,10 @@ function hideTooltip(event) {
 }
 
 // Add event listeners for mouseover and mouseout events
-document.addEventListener('mouseover', showTooltip);
-document.addEventListener('mouseout', hideTooltip);
+for (var i = 0; i < icons.length; i++) {
+    icons[i].addEventListener('mouseover', showTooltip);
+    icons[i].addEventListener('mouseout', hideTooltip);
+}
 
 // Start the simulation
 updatePositions();
