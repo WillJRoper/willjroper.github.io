@@ -36,6 +36,23 @@ function calculateGravitationalForce(icon1, icon2) {
     return { x: forceX, y: forceY };
 }
 
+// Function to calculate the gravitational force between an icon and central mass
+function calculateGravitationalForceCentral(icon) {
+    var containerWidth = window.innerWidth;
+    var containerHeight = window.innerHeight;
+    
+    var dx = icon.offsetLeft - (containerWidth / 2);
+    var dy = icon.offsetTop - (containerHeight / 2);
+    var distanceSquared = dx * dx + dy * dy;
+    var forceMagnitude = G * 100 / distanceSquared;
+
+    var angle = Math.atan2(dy, dx);
+    var forceX = forceMagnitude * Math.cos(angle);
+    var forceY = forceMagnitude * Math.sin(angle);
+
+    return { x: forceX, y: forceY };
+}
+
 // Function to update the positions of the icons using kick-drift-kick method
 function updatePositions() {
     var containerWidth = window.innerWidth;
@@ -44,6 +61,11 @@ function updatePositions() {
     for (var i = 0; i < icons.length; i++) {
         accelerations[i].x = 0;
         accelerations[i].y = 0;
+
+        // Force from "black hole"
+        var force = calculateGravitationalForceCentral(icons[i]);
+        accelerations[i].x += force.x;
+        accelerations[i].y += force.y;
 
         for (var j = 0; j < icons.length; j++) {
             if (i !== j) {
