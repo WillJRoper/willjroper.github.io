@@ -59,5 +59,33 @@ function updatePositions() {
     requestAnimationFrame(updatePositions);
 }
 
+// Function to show tooltip on mouseover
+function showTooltip(event) {
+    var icon = event.target.closest('.icon-link');
+    if (!icon) return;
+  
+    var tooltipText = icon.getAttribute('data-tooltip');
+    var tooltip = document.createElement('div');
+    tooltip.className = 'tooltip';
+    tooltip.textContent = tooltipText;
+    document.body.appendChild(tooltip);
+  
+    var rect = icon.getBoundingClientRect();
+    tooltip.style.top = (rect.top - 30) + 'px'; // Adjust the distance of the tooltip from the icon
+    tooltip.style.left = (rect.left + rect.width / 2) + 'px'; // Center the tooltip horizontally
+}
+
+// Function to hide tooltip on mouseout
+function hideTooltip(event) {
+    var tooltip = document.querySelector('.tooltip');
+    if (tooltip) {
+        tooltip.remove();
+    }
+}
+
+// Add event listeners for mouseover and mouseout events
+document.addEventListener('mouseover', showTooltip);
+document.addEventListener('mouseout', hideTooltip);
+
 // Start the simulation
 updatePositions();

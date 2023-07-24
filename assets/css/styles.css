@@ -104,6 +104,8 @@ video {
 
 .icon-link i {
     /* Adjust icon styles as needed */
+    width: 50px;
+    height: 50px;
 }
 
 /* Position the icons as per your desired layout */
@@ -115,4 +117,19 @@ video {
 .icon-link:nth-child(2) {
     top: 200px;
     left: 200px;
+}
+
+/* Tooltip styles */
+.tooltip {
+    position: absolute;
+    top: -30px; /* Adjust the distance of the tooltip from the icon */
+    left: 50%; /* Center the tooltip horizontally */
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    display: none;
 }
