@@ -3,13 +3,18 @@
 // Get the icons
 var icon1 = document.getElementById('home');
 var icon2 = document.getElementById('about');
+var icon3 = document.getElementById('email');
+var icon4 = document.getElementById('twitter');
+var icon5 = document.getElementById('github');
+var icon6 = document.getElementById('yt');
+var icon7 = document.getElementById('linkedin');
 // Add more icons as needed
 
 // Set up the gravitational constant (adjust as needed for your simulation)
-var G = 0.0001;
+var G = 0.000001;
 
 // Create an array to store the icons
-var icons = [icon1, icon2];
+var icons = [icon1, icon2, icon3, icon4, icon5, icon6, icon7];
 // Add more icons to the array as needed
 
 // Initialize initial velocities and accelerations to zero for all icons
