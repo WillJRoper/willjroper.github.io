@@ -77,8 +77,8 @@ function updatePositions() {
             }
         }
 
-        velocities[i].x += 0.5 * accelerations[i].x * timestep ** 2;
-        velocities[i].y += 0.5 * accelerations[i].y * timestep ** 2;
+        velocities[i].x += 0.5 * accelerations[i].x * (0.5 * timestep) ** 2;
+        velocities[i].y += 0.5 * accelerations[i].y * (0.5 * timestep) ** 2;
 
         // Update icon positions with periodic boundary conditions
         var newLeft = (icons[i].offsetLeft + (velocities[i].x * timestep)) % containerWidth;
@@ -91,8 +91,8 @@ function updatePositions() {
         icons[i].style.left = newLeft + 'px';
         icons[i].style.top = newTop + 'px';
 
-        velocities[i].x += 0.5 * accelerations[i].x;
-        velocities[i].y += 0.5 * accelerations[i].y;
+        velocities[i].x += 0.5 * accelerations[i].x * (0.5 * timestep) ** 2;
+        velocities[i].y += 0.5 * accelerations[i].y * (0.5 * timestep) ** 2;
 
     }
     
