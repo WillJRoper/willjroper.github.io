@@ -1,3 +1,8 @@
+---
+---
+
+@import "{{ site.theme }}";
+
 /* styles.css */
 body, html {
     margin: 0;
@@ -78,8 +83,8 @@ video {
 }
 
 .social-icons img {
-    width: 60px; /* Adjust the size of the social media icons */
-    height: 60px;
+    width: 50px; /* Adjust the size of the social media icons */
+    height: 50px;
 }
 
 .about-me-section {
