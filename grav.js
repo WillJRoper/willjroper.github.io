@@ -75,7 +75,7 @@ function updatePositions() {
     var containerWidth = window.innerWidth;
     var containerHeight = window.innerHeight;
 
-    var timestep = 0.00001;
+    var timestep = 0.0001;
     var halfTimestep = timestep / 2;
     
     for (var i = 0; i < icons.length; i++) {
