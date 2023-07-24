@@ -58,7 +58,7 @@ function updatePositions() {
     var containerWidth = window.innerWidth;
     var containerHeight = window.innerHeight;
 
-    var timestep = 0.01;
+    var timestep = 0.1;
     
     for (var i = 0; i < icons.length; i++) {
         accelerations[i].x = 0;
@@ -90,6 +90,8 @@ function updatePositions() {
 
         icons[i].style.left = newLeft + 'px';
         icons[i].style.top = newTop + 'px';
+
+        console.log(icons[i].style.left, icons[i].style.top)
 
         velocities[i].x += 0.5 * accelerations[i].x * (0.5 * timestep) ** 2;
         velocities[i].y += 0.5 * accelerations[i].y * (0.5 * timestep) ** 2;
