@@ -59,9 +59,9 @@ video {
 }
 
 .social-icons {
-    position: absolute;
-    bottom: 20px; /* Adjust the position of the social icons */
-    right: 20px; /* Adjust the position of the social icons */
+    position: fixed; /* Keep the social icons fixed in the top right corner */
+    top: 20px; /* Adjust the vertical position of the social icons */
+    right: 20px; /* Adjust the horizontal position of the social icons */
     display: flex;
     flex-direction: column;
 }
