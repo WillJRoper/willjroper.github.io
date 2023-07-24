@@ -10,6 +10,9 @@ var icon6 = document.getElementById('yt');
 var icon7 = document.getElementById('linkedin');
 // Add more icons as needed
 
+// Define a sleep function
+const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
 // Set up the gravitational constant (adjust as needed for your simulation)
 var G = 0.000001;
 
@@ -70,7 +73,8 @@ function updatePositions() {
         velocities[i].y += 0.5 * accelerations[i].y;
 
     }
-
+    
+    await sleepNow(250)
     requestAnimationFrame(updatePositions);
 }
 
