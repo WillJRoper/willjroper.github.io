@@ -1,8 +1,8 @@
 # Site settings
-title: My Site
-description: A short description of my site
+title: Will J Roper
+description: My personal site
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "" # the base hostname & protocol for your site
+url: "https://willjroper.github.io/" # the base hostname & protocol for your site
 
 # Build settings
 remote_theme: pages-themes/hacker@v0.2.0
