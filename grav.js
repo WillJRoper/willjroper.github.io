@@ -91,7 +91,7 @@ function updatePositions() {
         icons[i].style.left = newLeft + 'px';
         icons[i].style.top = newTop + 'px';
 
-        console.log(icons[i].style.left, icons[i].style.top)
+        console.log(icons[i].style.left, icons[i].style.top);
 
         velocities[i].x += 0.5 * accelerations[i].x * (0.5 * timestep) ** 2;
         velocities[i].y += 0.5 * accelerations[i].y * (0.5 * timestep) ** 2;
