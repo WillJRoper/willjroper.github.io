@@ -85,6 +85,8 @@ video {
 .social-icons img {
     width: 50px; /* Adjust the size of the social media icons */
     height: 50px;
+    object-fit: contain; /* Use 'contain' to preserve aspect ratio and fit within the container */
+    object-position: center; /* Center the image within the container */
 }
 
 .about-me-section {
