@@ -6,7 +6,7 @@ var icon2 = document.getElementById('about');
 // Add more icons as needed
 
 // Set up the gravitational constant (adjust as needed for your simulation)
-var G = 0.1;
+var G = 0.01;
 
 // Create an array to store the icons
 var icons = [icon1, icon2];
@@ -49,8 +49,25 @@ function updatePositions() {
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
 
-        icons[i].style.left = (icons[i].offsetLeft + velocities[i].x) + 'px';
-        icons[i].style.top = (icons[i].offsetTop + velocities[i].y) + 'px';
+        // Update icon positions with periodic boundary conditions
+        var iconRect = icons[i].getBoundingClientRect();
+        var containerRect = document.querySelector('.video-section').getBoundingClientRect();
+
+        if (iconRect.left + velocities[i].x < containerRect.left) {
+            icons[i].style.left = (containerRect.right - iconRect.width) + 'px';
+        } else if (iconRect.right + velocities[i].x > containerRect.right) {
+            icons[i].style.left = containerRect.left + 'px';
+        } else {
+            icons[i].style.left = (iconRect.left + velocities[i].x) + 'px';
+        }
+
+        if (iconRect.top + velocities[i].y < containerRect.top) {
+            icons[i].style.top = (containerRect.bottom - iconRect.height) + 'px';
+        } else if (iconRect.bottom + velocities[i].y > containerRect.bottom) {
+            icons[i].style.top = containerRect.top + 'px';
+        } else {
+            icons[i].style.top = (iconRect.top + velocities[i].y) + 'px';
+        }
 
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
