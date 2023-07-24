@@ -79,10 +79,10 @@ function updatePositions() {
         accelerations[i].x = 0;
         accelerations[i].y = 0;
 
-        // Force from "black hole"
-        var force = calculateGravitationalForceCentral(icons[i]);
-        accelerations[i].x += force.x;
-        accelerations[i].y += force.y;
+        // // Force from "black hole"
+        // var force = calculateGravitationalForceCentral(icons[i]);
+        // accelerations[i].x += force.x;
+        // accelerations[i].y += force.y;
 
         for (var j = 0; j < icons.length; j++) {
             if (i !== j) {
