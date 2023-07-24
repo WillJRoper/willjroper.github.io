@@ -6,7 +6,7 @@ var icon2 = document.getElementById('about');
 // Add more icons as needed
 
 // Set up the gravitational constant (adjust as needed for your simulation)
-var G = 0.01;
+var G = 0.001;
 
 // Create an array to store the icons
 var icons = [icon1, icon2];
@@ -32,6 +32,9 @@ function calculateGravitationalForce(icon1, icon2) {
 
 // Function to update the positions of the icons using kick-drift-kick method
 function updatePositions() {
+    var containerWidth = window.innerWidth;
+    var containerHeight = window.innerHeight;
+    
     for (var i = 0; i < icons.length; i++) {
         accelerations[i].x = 0;
         accelerations[i].y = 0;
@@ -44,35 +47,23 @@ function updatePositions() {
             }
         }
 
-        console.log(accelerations[i].x, accelerations[i].y);
-
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
 
         // Update icon positions with periodic boundary conditions
-        var iconRect = icons[i].getBoundingClientRect();
-        var containerRect = document.querySelector('.video-section').getBoundingClientRect();
+        var newLeft = (icons[i].offsetLeft + velocities[i].x) % containerWidth;
+        var newTop = (icons[i].offsetTop + velocities[i].y) % containerHeight;
 
-        if (iconRect.left + velocities[i].x < containerRect.left) {
-            icons[i].style.left = (containerRect.right - iconRect.width) + 'px';
-        } else if (iconRect.right + velocities[i].x > containerRect.right) {
-            icons[i].style.left = containerRect.left + 'px';
-        } else {
-            icons[i].style.left = (iconRect.left + velocities[i].x) + 'px';
-        }
+        // Handle negative values (when the icon crosses the left or top boundary)
+        newLeft = (newLeft >= 0) ? newLeft : containerWidth + newLeft;
+        newTop = (newTop >= 0) ? newTop : containerHeight + newTop;
 
-        if (iconRect.top + velocities[i].y < containerRect.top) {
-            icons[i].style.top = (containerRect.bottom - iconRect.height) + 'px';
-        } else if (iconRect.bottom + velocities[i].y > containerRect.bottom) {
-            icons[i].style.top = containerRect.top + 'px';
-        } else {
-            icons[i].style.top = (iconRect.top + velocities[i].y) + 'px';
-        }
+        icons[i].style.left = newLeft + 'px';
+        icons[i].style.top = newTop + 'px';
 
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
 
-        console.log(icons[i].style.left, icons[i].style.top);
     }
 
     requestAnimationFrame(updatePositions);
