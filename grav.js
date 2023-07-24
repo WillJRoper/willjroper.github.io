@@ -44,7 +44,7 @@ function updatePositions() {
             }
         }
 
-        console.log(accelerations[i].x, accelerations[i].y)
+        console.log(accelerations[i].x, accelerations[i].y);
 
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
@@ -54,6 +54,8 @@ function updatePositions() {
 
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
+
+        console.log(icons[i].style.left, icons[i].style.top);
     }
 
     requestAnimationFrame(updatePositions);
