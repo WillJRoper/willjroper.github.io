@@ -57,3 +57,27 @@ video {
 .text-content p {
     font-size: 18px;
 }
+
+.social-icons {
+    position: absolute;
+    bottom: 20px; /* Adjust the position of the social icons */
+    right: 20px; /* Adjust the position of the social icons */
+    display: flex;
+    flex-direction: column;
+}
+
+.social-icons a {
+    display: block;
+    margin-bottom: 10px; /* Add some space between the social media icons */
+    opacity: 0.5; /* Set the initial opacity */
+    transition: opacity 0.3s ease; /* Add a transition for the hover effect */
+}
+
+.social-icons a:hover {
+    opacity: 1; /* Increase opacity on hover */
+}
+
+.social-icons img {
+    width: 30px; /* Adjust the size of the social media icons */
+    height: 30px;
+}
