@@ -22,6 +22,23 @@ var icons = [icon1, icon2];
 var velocities = Array.from({ length: icons.length }, () => ({ x: 0, y: 0 }));
 var accelerations = Array.from({ length: icons.length }, () => ({ x: 0, y: 0 }));
 
+// Function to set initial positions of the icons
+function setInitialPositions() {
+    var containerWidth = window.innerWidth;
+    var containerHeight = window.innerHeight;
+
+    for (var i = 0; i < icons.length; i++) {
+        var initialX = Math.random() * containerWidth; // Random initial X position
+        var initialY = Math.random() * containerHeight; // Random initial Y position
+
+        icons[i].style.left = initialX + 'px';
+        icons[i].style.top = initialY + 'px';
+
+        velocities[i] = { x: 0, y: 0 };
+        accelerations[i] = { x: 0, y: 0 };
+    }
+}
+
 // Function to calculate the gravitational force between two icons
 function calculateGravitationalForce(icon1, icon2) {
     var dx = icon2.offsetLeft - icon1.offsetLeft;
@@ -122,6 +139,9 @@ function hideTooltip(event) {
         tooltip.remove();
     }
 }
+
+// Set initial positions before starting the animation
+setInitialPositions();
 
 // Add event listeners for mouseover and mouseout events
 for (var i = 0; i < icons.length; i++) {

@@ -110,42 +110,6 @@ video {
     height: 50px;
 }
 
-/* Position the icons as per your desired layout */
-.icon-link:nth-child(1) {
-    top: 100px;
-    left: 100px;
-}
-
-.icon-link:nth-child(2) {
-    top: 200px;
-    left: 200px;
-}
-
-/* .icon-link:nth-child(3) { */
-/*     top: 150px; */
-/*     left: 150px; */
-/* } */
-
-/* .icon-link:nth-child(4) { */
-/*     top: 150px; */
-/*     left: 200px; */
-/* } */
-
-/* .icon-link:nth-child(5) { */
-/*     top: 150px; */
-/*     left: 250px; */
-/* } */
-
-/* .icon-link:nth-child(6) { */
-/*     top: 200px; */
-/*     left: 250px; */
-/* } */
-
-/* .icon-link:nth-child(7) { */
-/*     top: 250px; */
-/*     left: 250px; */
-/* } */
-
 /* Tooltip styles */
 .tooltip {
     position: absolute;
