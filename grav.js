@@ -11,30 +11,16 @@ var icon2 = document.getElementById('about');
 // Add more icons as needed
 
 // Set up the gravitational constant (adjust as needed for your simulation)
-var G = 0.00000001;
+var G = 0.000000001;
 
 // Create an array to store the icons
 var icons = [icon1, icon2];
 // var icons = [icon1, icon2, icon3, icon4, icon5, icon6, icon7];
 // Add more icons to the array as needed
-var nobj = 10;
 
 // Initialize initial velocities and accelerations to zero for all icons
-var velocities = Array.from({ length: nobj }, () => ({ x: 0, y: 0 }));
-var accelerations = Array.from({ length: nobj }, () => ({ x: 0, y: 0 }));
-
-// Function to create a non-linked circle
-function createNonLinkedCircle(top, left, size) {
-    var circle = document.createElement('div');
-    circle.classList.add('non-linked-circle');
-    circle.style.top = top + 'px';
-    circle.style.left = left + 'px';
-    circle.style.width = size + 'px';
-    circle.style.height = size + 'px';
-    document.querySelector('.video-section').appendChild(circle);
-
-    icons.push(circle);
-}
+var velocities = Array.from({ length: icons.length }, () => ({ x: 0, y: 0 }));
+var accelerations = Array.from({ length: icons.length }, () => ({ x: 0, y: 0 }));
 
 // Function to set initial positions of the icons
 function setInitialPositions() {
@@ -47,16 +33,6 @@ function setInitialPositions() {
 
         icons[i].style.left = initialX + 'px';
         icons[i].style.top = initialY + 'px';
-
-        velocities[i] = { x: 0, y: 0 };
-        accelerations[i] = { x: 0, y: 0 };
-    }
-
-    for (var i = 0; i < nobj - icons.length; i++) {
-        var initialX = Math.random() * containerWidth; // Random initial X position
-        var initialY = Math.random() * containerHeight; // Random initial Y position
-
-        createNonLinkedCircle(initialY, initialX, 50); // Adjust the size as needed
 
         velocities[i] = { x: 0, y: 0 };
         accelerations[i] = { x: 0, y: 0 };
@@ -99,10 +75,10 @@ function updatePositions() {
     var containerWidth = window.innerWidth;
     var containerHeight = window.innerHeight;
 
-    var timestep = 0.001;
+    var timestep = 0.00001;
     var halfTimestep = timestep / 2;
     
-    for (var i = 0; i < nobj; i++) {
+    for (var i = 0; i < icons.length; i++) {
         accelerations[i].x = 0;
         accelerations[i].y = 0;
 
@@ -111,7 +87,7 @@ function updatePositions() {
         // accelerations[i].x += force.x;
         // accelerations[i].y += force.y;
 
-        for (var j = 0; j < nobj; j++) {
+        for (var j = 0; j < icons.length; j++) {
             if (i !== j) {
                 var force = calculateGravitationalForce(icons[i], icons[j]);
                 accelerations[i].x += force.x;
@@ -132,6 +108,8 @@ function updatePositions() {
 
         icons[i].style.left = newLeft + 'px';
         icons[i].style.top = newTop + 'px';
+
+        console.log(icons[i].style.left, icons[i].style.top);
 
         velocities[i].x += 0.5 * accelerations[i].x * halfTimestep ** 2;
         velocities[i].y += 0.5 * accelerations[i].y * halfTimestep ** 2;
