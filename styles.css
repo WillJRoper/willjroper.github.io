@@ -81,3 +81,7 @@ video {
     width: 60px; /* Adjust the size of the social media icons */
     height: 60px;
 }
+
+.about-me-section {
+    padding: 40px;
+}
