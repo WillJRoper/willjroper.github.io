@@ -89,28 +89,30 @@ video {
     object-position: center; /* Center the image within the container */
 }
 
-.about-me-section {
-    padding: 40px;
-}
-
-.navigation-bar {
+.icon-link {
     position: absolute;
-    top: 0; /* Set the navigation bar to the top of the video section */
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background for the navigation bar */
-}
-
-.navigation-bar a {
-    color: white;
-    padding: 10px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
     font-size: 24px;
-    text-decoration: none;
-    margin: 0 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-.navigation-bar a:hover {
-    color: #ffcc00; /* Change the color when hovering over the icons */
+.icon-link i {
+    /* Adjust icon styles as needed */
+}
+
+/* Position the icons as per your desired layout */
+.icon-link:nth-child(1) {
+    top: 100px;
+    left: 100px;
+}
+
+.icon-link:nth-child(2) {
+    top: 200px;
+    left: 200px;
 }
