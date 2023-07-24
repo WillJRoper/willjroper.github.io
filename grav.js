@@ -43,14 +43,12 @@ function updatePositions() {
                 accelerations[i].y += force.y;
             }
         }
-    }
 
-    for (var i = 0; i < icons.length; i++) {
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
 
-        icons[i].style.left = icons[i].offsetLeft + velocities[i].x + 'px';
-        icons[i].style.top = icons[i].offsetTop + velocities[i].y + 'px';
+        icons[i].style.left = (icons[i].offsetLeft + velocities[i].x) + 'px';
+        icons[i].style.top = (icons[i].offsetTop + velocities[i].y) + 'px';
 
         velocities[i].x += 0.5 * accelerations[i].x;
         velocities[i].y += 0.5 * accelerations[i].y;
