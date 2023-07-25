@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Adjust this value to control the simulation speed
     const timeStep = 0.05;
 
+    // Define arrays of links and icons
+    const links = ['https://willjroper.github.io',
+                 'https://willjroper.github.io/about.html'];
+    const icons = ['\uf015', '\uf05a']
+
     // Particle class representing each element in the simulation
     class Particle {
         constructor(x, y, mass, link, icon, vx, vy) {
@@ -17,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.vx = vx;
             this.vy = vy;
             this.link = link;
-            this.icon = icon; // Font Awesome icon name, e.g., 'fa-bug', 'fa-star', etc.
+            this.icon = icon; // Font Awesome unicode.
         }
 
         // Method to update position with periodic boundary conditions
@@ -35,6 +40,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
         const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
+        if (i < links.length) {
+            const link = links[i];
+            const icon = icons[i];
+        } else {
+            const link = null;
+            const icon = null;
+        }
         const link = `https://example.com/${i}`; // Replace with the desired hyperlink
         const icon = i % 2 === 0 ? '\uf015' : '\uf05a'; // Use different icons for even and odd particles
 
@@ -120,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Draw particles on the canvas in white color
             if (particle.icon) {
                 // Use Font Awesome icon
-                ctx.font = '20px FontAwesome';
+                ctx.font = '10px FontAwesome';
                 ctx.fillStyle = 'white';
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'center';
