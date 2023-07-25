@@ -169,13 +169,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Use image for the particle's icon
                 const img = new Image();
                 img.src = particle.imagePath;
+                
+                // Wait for the image to load before drawing it on the canvas
+                img.onload = () => {
+                    // Calculate the aspect ratio of the image
+                    const aspectRatio = img.width / img.height;
 
-                // Draw the image on the canvas with the desired opacity
-                ctx.globalAlpha = particle.isMouseOver ? 1 : 0.5;
-                ctx.drawImage(img, particle.x - particle.size / 2,
-                              particle.y - particle.size / 2, particle.size,
-                              particle.size);
-                ctx.globalAlpha = 0.5; 
+                    // Calculate the scaled dimensions based on particle.size and aspectRatio
+                    let width, height;
+                    if (aspectRatio >= 1) {
+                        // Image is wider than tall (landscape)
+                        width = particle.size;
+                        height = particle.size / aspectRatio;
+                    } else {
+                        // Image is taller than wide (portrait)
+                        width = particle.size * aspectRatio;
+                        height = particle.size;
+                    }
+
+                    // Draw the image on the canvas with the desired opacity
+                    ctx.globalAlpha = particle.isMouseOver ? 1 : 0.5;
+                    ctx.drawImage(img, particle.x - width / 2,
+                                  particle.y - height / 2, width, height);
+                    ctx.globalAlpha = 0.5;
+                };
                 
             } else {
                 // Use circle for other particles
