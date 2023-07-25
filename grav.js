@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (particle.isMouseOver) {
                     ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
                 } else {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";   
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.55)";   
                 }
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'center';
