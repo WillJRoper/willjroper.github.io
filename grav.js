@@ -154,13 +154,14 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.addEventListener('click', function (event) {
         const mouseX = event.clientX - canvas.offsetLeft;
         const mouseY = event.clientY - canvas.offsetTop;
+
+        console.log('Clicked', mouseX, event.clientX, canvas.offsetLeft,
+                    mouseY, event.clientY, canvas.offsetTop,);
         
         for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
             const radiusSq = particle.size ** 2;
-
-            console.log('Clicked' ,mouseX, particle.x, mouseY, particle.y, distanceSq, radiusSq);
             
             if (distanceSq <= radiusSq) {
                 // Particle clicked!
