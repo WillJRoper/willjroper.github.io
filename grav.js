@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Draw particles on the canvas in white color
             if (particle.icon) {
                 // Use Font Awesome icon
-                ctx.font = '10px FontAwesome';
+                ctx.font = particle.size + 'px FontAwesome';
                 if (particle.isMouseOver) {
                     ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
                 } else {
