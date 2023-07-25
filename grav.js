@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // If it was a random click add a particle
-        if (!part_click){
+        if (part_click == false) {
             addParticle(null, mouseX, mouseY);
         }
     });
