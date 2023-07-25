@@ -56,6 +56,14 @@ document.addEventListener('DOMContentLoaded', function () {
         particles.push(new Particle(x, y, mass, link, 0, vx, vy));
     }
 
+    // Place a fixed invisible heavy particle at the center
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const centerMass = 100; // Adjust the mass as desired
+    
+    // Add the fixed center particle to the particles array
+    particles.push(new Particle(centerX, centerY, centerMass, null, null, 0, 0));
+
     function update() {
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -86,8 +94,27 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
+        // Apply gravitational force from the fixed center particle
+        const centerParticle = particles[numParticles]; // The fixed center particle is at the end of the array
+        const dxCenter = centerParticle.x - particle.x;
+        const dyCenter = centerParticle.y - particle.y;
+        const distanceCenterSq = dxCenter * dxCenter + dyCenter * dyCenter;
+        const distanceCenter = Math.sqrt(distanceCenterSq);
+        
+        // Calculate gravitational force
+        const forceCenter = (G * particle.mass * centerParticle.mass) / distanceCenterSq;
+        
+        // Calculate components of the force
+        const fxCenter = forceCenter * (dxCenter / distanceCenter);
+        const fyCenter = forceCenter * (dyCenter / distanceCenter);
+
+        // Update velocities of the particle based on the gravitational force from the center particle
+        particle.vx += fxCenter / particle.mass;
+        particle.vy += fyCenter / particle.mass;
+
         // Update positions based on velocities with periodic boundary conditions
-        for (const particle of particles) {
+        for (let i = 0; i < numParticles; i++) {
+            const particle = particles[i];
             particle.updatePosition();
             
             // Draw particles on the canvas in white color
@@ -117,6 +144,8 @@ document.addEventListener('DOMContentLoaded', function () {
         for (const particle of particles) {
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
             const radiusSq = 5 ** 2; // Radius of the particle squared (assuming a circle with radius 5)
+
+            console.log("Clicked");
             
             if (distanceSq <= radiusSq) {
                 // Particle clicked!
