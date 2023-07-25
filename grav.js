@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.scale(dpr, dpr);
 
     const G = 10; // Gravitational constant
-    const numParticles = 3;
+    const numParticles = 7;
 
     // Adjust this value to control the simulation speed
     const timeStep = 0.05;
