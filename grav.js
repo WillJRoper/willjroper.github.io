@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const angle = Math.atan2(dy, dx);
 
         // Calculate the initial speed for orbiting (adjust this value to control the orbit speed)
-        const orbitSpeed = 0.1;
+        const orbitSpeed = 1;
 
         // Calculate the initial velocities vx and vy
         const vx = -orbitSpeed * dy / distance;
