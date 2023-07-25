@@ -2,11 +2,13 @@
 title: Astrophysics Games
 ---
 
+# Astrophysics Games
+
 This is a placeholder for public engagement apps.
 
-# Best the computer
+## Best the computer
 
-# Make a galaxy
+## Make a galaxy
 
-# etc...
+## etc...
 
