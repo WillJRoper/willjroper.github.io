@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('canvas-overlay');
     const ctx = canvas.getContext('2d');
 
+    // Scale the the number of pixels
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = canvas.clientWidth * dpr;
+    canvas.height = canvas.clientHeight * dpr;
+    ctx.scale(dpr, dpr);
+
     const G = 10; // Gravitational constant
     const numParticles = 3;
 
