@@ -36,7 +36,6 @@ video {
     z-index: -1; /* To place the video behind the text */
 }
 
-
 .text-overlay {
     position: absolute;
     top: 50%;
@@ -47,7 +46,6 @@ video {
     z-index: 1;
     display: flex; /* Use flexbox to align items side by side */
     align-items: center; /* Center items vertically */
-    flex-direction: column; /* Stack the image on top of the text */
 }
 
 .profile-picture {
@@ -55,9 +53,7 @@ video {
     height: 100px;
     border-radius: 50%; /* Create a circular profile picture */
     overflow: hidden; /* Ensure the image stays within the circular boundary */
-    margin-bottom: 20px; /* Add some space between the picture and text */
-    display: flex; /* Use flexbox to center the image horizontally */
-    justify-content: center; /* Center the image horizontally */
+    margin-right: 20px; /* Add some space between the picture and text */
 }
 
 .profile-picture img {
@@ -67,23 +63,15 @@ video {
 }
 
 .text-content {
-    text-align: center; /* Center the text relative to the profile picture */
+    text-align: left; /* Left-align the text relative to the profile picture */
 }
 
 .text-content h1 {
     font-size: 36px;
-    margin-bottom: 5px; /* Add some space below the heading */
 }
 
 .text-content p {
     font-size: 18px;
-}
-
-/* Center the profile image in the middle of the video */
-.text-overlay .profile-picture {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
 }
 
 .social-icons {
