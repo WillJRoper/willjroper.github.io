@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
             const radiusSq = 5 ** 2; // Radius of the particle squared (assuming a circle with radius 5)
 
-            console.log("Clicked (${mouseX}, ${mouseY} ${distanceSq} $radiusSq) ");
+            console.log("Clicked (${mouseX}, ${mouseY} ${distanceSq} ${radiusSq}) ");
             
             if (distanceSq <= radiusSq) {
                 // Particle clicked!
