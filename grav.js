@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.scale(dpr, dpr);
 
     const G = 10; // Gravitational constant
-    let numParticles = 8;
+    let numParticles = 16;
 
     // Adjust this value to control the simulation speed
     const timeStep = 0.05;
@@ -60,38 +60,36 @@ document.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < numParticles; i++) {
 
         // We want multiple copies of each particle.
-        for (let k = 0; k < 3; k++) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            const mass = 10 + Math.random() * 4; // Random mass between 1 and 5
-            let link = null;
-            let icon = null;
-            let imgPath = null;
-            if (i < links.length) {
-                link = links[i];
-                icon = icons[i];
-                imgPath = imgPaths[i];
-            }
-
-            // Calculate the velocity components for orbiting around the center
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const dx = x - centerX;
-            const dy = y - centerY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx);
-
-            // Initial orbital speed
-            const orbitSpeed = 1;
-            
-            // Calculate the initial velocities vx and vy
-            const vx = -orbitSpeed * dy / distance;
-            const vy = orbitSpeed * dx / distance;
-
-            particles.push(
-                new Particle(x, y, mass, link, icon, imgPath, vx, vy)
-            );
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const mass = 10 + Math.random() * 4;
+        let link = null;
+        let icon = null;
+        let imgPath = null;
+        if (i < links.length) {
+            link = links[i];
+            icon = icons[i];
+            imgPath = imgPaths[i];
         }
+
+        // Calculate the velocity components for orbiting around the center
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const dx = x - centerX;
+        const dy = y - centerY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx);
+
+        // Initial orbital speed
+        const orbitSpeed = 1;
+            
+        // Calculate the initial velocities vx and vy
+        const vx = -orbitSpeed * dy / distance;
+        const vy = orbitSpeed * dx / distance;
+
+        particles.push(
+            new Particle(x, y, mass, link, icon, imgPath, vx, vy)
+        );
     }
 
     // Place a fixed invisible heavy particle at the center
@@ -108,9 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         // Calculate gravitational forces and update velocities
-        for (let i = 0; i < particles.length - 1; i++) {
+        for (let i = 0; i < numParticles; i++) {
             const particle1 = particles[i];
-            for (let j = 0; j < particles.length - 1; j++) {
+            for (let j = 0; j < numParticles; j++) {
                 if (i !== j) {
                     const particle2 = particles[j];
                     
@@ -152,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Update positions based on velocities with periodic boundary conditions
-        for (let i = 0; i < particles.length - 1; i++) {
+        for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
             particle.updatePosition();
             
@@ -221,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
         
-        for (let i = 0; i < particles.length - 1; i++) {
+        for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
             const radiusSq = particle.size ** 2;
