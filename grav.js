@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const y = Math.random() * canvas.height;
         const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
         const link = `https://example.com/${i}`; // Replace with the desired hyperlink
-        const icon = i % 2 === 0 ? 'fas fa-home' : 'fas fa-info-circle'; // Use different icons for even and odd particles
+        const icon = i % 2 === 0 ? '\uf015' : '\uf05a'; // Use different icons for even and odd particles
 
         // Calculate the velocity components for orbiting around the center
         const centerX = canvas.width / 2;
