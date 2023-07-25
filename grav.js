@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       "pictures/socials/YT_white.png",
                       "pictures/socials/LI_white.png"]
 
+    const dublicateItems = (arr, numberOfRepetitions) => 
+          arr.flatMap(i => Array.from({ length: numberOfRepetitions }).fill(i));
+
     // Particle class representing each element in the simulation
     class Particle {
         constructor(x, y, mass, link, icon, imagePath, vx, vy) {
@@ -59,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < numParticles; i++) {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
+        const mass = 10 + Math.random() * 4; // Random mass between 1 and 5
         let link = null;
         let icon = null;
         let imgPath = null;
@@ -86,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         particles.push(new Particle(x, y, mass, link, icon, imgPath, vx, vy));
     }
+
+    // Make multiple copies of each particle
+    dublicateItems(particles, 3);
 
     // Place a fixed invisible heavy particle at the center
     const centerX = canvas.width / 2;
@@ -213,16 +219,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-
-        console.log('Clicked', mouseX, event.clientX, canvas.offsetLeft,
-                    mouseY, event.clientY, canvas.offsetTop,);
         
         for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
             const radiusSq = particle.size ** 2;
-
-            console.log('Clicked' ,mouseX, particle.x, mouseY, particle.y, distanceSq, radiusSq);
             
             if (distanceSq <= radiusSq) {
                 // Particle clicked!
