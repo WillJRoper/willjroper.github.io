@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const numParticles = 10;
 
     // Adjust this value to control the simulation speed
-    const timeStep = 10;
+    const timeStep = 0.01;
 
     // Particle class representing each element in the simulation
     class Particle {
