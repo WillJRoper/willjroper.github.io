@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Method to update position with periodic boundary conditions
         updatePosition() {
-            this.x = (this.x + this.vx) % canvas.width;
-            this.y = (this.y + this.vy) % canvas.height;
+            this.x = (this.x + this.vx + canvas.width) % canvas.width;
+            this.y = (this.y + this.vy + canvas.height) % canvas.height;
+
             console.log(this.x, this.y);
         }
     }
