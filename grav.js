@@ -15,6 +15,13 @@ class Particle {
         this.link = link;
         this.icon = icon; // Font Awesome icon name, e.g., 'fa-bug', 'fa-star', etc.
     }
+
+    
+    // Method to update position with periodic boundary conditions
+    updatePosition() {
+      this.x = (this.x + this.vx) % canvas.width;
+      this.y = (this.y + this.vy) % canvas.height;
+    }
 }
 
 // Create an array to hold all the particles
@@ -26,7 +33,8 @@ for (let i = 0; i < numParticles; i++) {
     const y = Math.random() * canvas.height;
     const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
     const link = `https://example.com/${i}`; // Replace with the desired hyperlink
-    const icon = i % 2 === 0 ? 'fa-bug' : 'fa-star'; // Use different icons for even and odd particles
+    /* const icon = i % 2 === 0 ? 'fa-bug' : 'fa-star'; */ // Use different icons for even and odd particles
+    const icon = 0;
     particles.push(new Particle(x, y, mass, link, icon));
 }
 
@@ -62,8 +70,7 @@ function update() {
 
     // Update positions based on velocities
     for (const particle of particles) {
-        particle.x += particle.vx;
-        particle.y += particle.vy;
+        particle.updatePosition();
         console.log(particle.x, particle.y);
         
 
