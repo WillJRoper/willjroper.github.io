@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
                    "https://github.com/willjroper",
                    "https://www.youtube.com/channel/UCqHvI4oq6PdLR1-jU0pRyng",
                    "https://www.linkedin.com/in/william-roper-b1a527189/",
-                  'https://willjroper.github.io/games.html'];
+                   'https://willjroper.github.io/games.html'];
     const icons = ['\uf015', '\uf05a', null, null, null, null, null, '\uf11b'];
     const imgPaths = [null, null,
                       "pictures/socials/mail_white.png",
