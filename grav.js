@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Define the properties of a particle
         if (x == null) {
-            const x = (Math.random() * canvas.width / 2) + (canvas.width / 4);
+            x = (Math.random() * canvas.width / 2) + (canvas.width / 4);
         }
         if (y == null) {
-            const y = (Math.random() * canvas.height / 2) + (canvas.height / 4);
+            y = (Math.random() * canvas.height / 2) + (canvas.height / 4);
         }
         const mass = 10 + Math.random() * 20;
         let link = null;
