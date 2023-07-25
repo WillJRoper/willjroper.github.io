@@ -36,6 +36,7 @@ video {
     z-index: -1; /* To place the video behind the text */
 }
 
+
 .text-overlay {
     position: absolute;
     top: 50%;
@@ -50,12 +51,8 @@ video {
 }
 
 .profile-picture {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%; /* Create a circular profile picture */
     overflow: hidden; /* Ensure the image stays within the circular boundary */
     margin-bottom: 20px; /* Add some space between the picture and text */
@@ -69,6 +66,7 @@ video {
 
 .text-content {
     text-align: center; /* Center the text relative to the profile picture */
+    margin-top: 10px; /* Add some space between the picture and text */
 }
 
 .text-content h1 {
