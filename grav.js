@@ -40,12 +40,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
         const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
+        let link = null;
+        let icon = null;
         if (i < links.length) {
-            const link = links[i];
-            const icon = icons[i];
-        } else {
-            const link = null;
-            const icon = null;
+            link = links[i];
+            icon = icons[i];
         }
 
         // Calculate the velocity components for orbiting around the center
