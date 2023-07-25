@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.vy = vy;
             this.link = link;
             this.icon = icon; // Font Awesome unicode.
+            this.size = 10;
         }
 
         // Method to update position with periodic boundary conditions
@@ -135,11 +136,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 ctx.textAlign = 'center';
                 
                 // Draw the Font Awesome icon directly using the font
-                ctx.fillText(particle.icon, particle.x, particle.y);
+                ctx.fillText(particle.icon, particle.x, particle.y, particle.size);
             } else {
                 // Use circle for other particles
                 ctx.beginPath();
-                ctx.arc(particle.x, particle.y, 5, 0, 2 * Math.PI);
+                ctx.arc(particle.x, particle.y, particle.size / 2, 0, 2 * Math.PI);
                 ctx.fillStyle = 'white'; // Set the fill color to white
                 ctx.fill();
             }
@@ -157,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
-            const radiusSq = 5 ** 2; // Radius of the particle squared (assuming a circle with radius 5)
+            const radiusSq = particle.size ** 2; // Radius of the particle squared (assuming a circle with radius 5)
 
             console.log("Clicked (${mouseX}, ${mouseY} ${distanceSq} ${radiusSq}) ");
             
