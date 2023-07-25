@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const distance = Math.sqrt(distanceSq);
                     
                     // Calculate gravitational force
-                    const force = (G * particle1.mass * particle2.mass) / distanceSq;
+                    const force = (G * particle1.mass * particle2.mass) / (distanceSq + 100);
                     
                     // Calculate components of the force
                     const fx = force * (dx / distance);
