@@ -199,12 +199,9 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 // Use circle for other particles
                 ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size / 2, 0, 2 * Math.PI);
-                if (particle.isMouseOver) {
-                    ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
-                } else {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";   
-                }
+                ctx.arc(particle.x, particle.y, particle.size / 2,
+                        0, 2 * Math.PI);
+                ctx.fillStyle = "rgba(255, 255, 255, 0.5)";   
                 ctx.fill();
             }
         }
