@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const ctx = canvas.getContext('2d');
 
     const G = 10; // Gravitational constant
-    const numParticles = 10;
+    const numParticles = 3;
 
     // Adjust this value to control the simulation speed
     const timeStep = 0.05;
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.link = link;
             this.icon = icon; // Font Awesome unicode.
             this.size = 10;
+            isMouseOver = false;
         }
 
         // Method to update position with periodic boundary conditions
@@ -131,7 +132,11 @@ document.addEventListener('DOMContentLoaded', function () {
             if (particle.icon) {
                 // Use Font Awesome icon
                 ctx.font = '10px FontAwesome';
-                ctx.fillStyle = 'white';
+                if (particle.isMouseOver) {
+                    ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
+                } else {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";   
+                }
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'center';
                 
@@ -141,7 +146,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Use circle for other particles
                 ctx.beginPath();
                 ctx.arc(particle.x, particle.y, particle.size / 2, 0, 2 * Math.PI);
-                ctx.fillStyle = 'white'; // Set the fill color to white
+                if (particle.isMouseOver) {
+                    ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
+                } else {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.5)";   
+                }
                 ctx.fill();
             }
         }
@@ -152,8 +161,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for handling clicks on particles
     canvas.addEventListener('click', function (event) {
-        const mouseX = event.offsetX;
-        const mouseY = event.offsetY;
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
 
         console.log('Clicked', mouseX, event.clientX, canvas.offsetLeft,
                     mouseY, event.clientY, canvas.offsetTop,);
@@ -179,6 +189,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 break; // No need to check other particles if one is already clicked
             }
         }
+    });
+
+    // Update function to handle mouse events
+    function handleMouseEvents(event) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        // Check if the mouse is over any particle
+        particles.forEach(particle => {
+            const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
+            const radiusSq = particle.size ** 2;
+            
+            if (distanceSq <= radiusSq) {
+                // Mouse is over the particle, set its isMouseOver property to true
+                particle.isMouseOver = true;
+            } else {
+                // Mouse is not over the particle, set its isMouseOver property to false
+                particle.isMouseOver = false;
+            }
+        });
+    }
+
+    // Add event listeners to the canvas
+    canvas.addEventListener('mousemove', handleMouseEvents);
+    canvas.addEventListener('mouseout', () => {
+        // When the mouse moves out of the canvas, reset all particles' isMouseOver to false
+        particles.forEach(particle => (particle.isMouseOver = false));
     });
     
     // Start the simulation
