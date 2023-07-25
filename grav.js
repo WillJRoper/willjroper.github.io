@@ -162,6 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const particle = particles[i];
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
             const radiusSq = particle.size ** 2;
+
+            console.log('Clicked' ,mouseX, particle.x, mouseY, particle.y, distanceSq, radiusSq);
             
             if (distanceSq <= radiusSq) {
                 // Particle clicked!
