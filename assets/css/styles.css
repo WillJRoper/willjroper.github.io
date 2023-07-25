@@ -45,7 +45,6 @@ video {
     z-index: 1;
     display: flex; /* Use flexbox to align items side by side */
     align-items: center; /* Center items vertically */
-    flex-direction: column;
 }
 
 .profile-picture {
