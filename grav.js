@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Define arrays of links and icons
     const links = ['https://willjroper.github.io',
-                 'https://willjroper.github.io/about.html'];
+                   'https://willjroper.github.io/about.html'];
     const icons = ['\uf015', '\uf05a']
 
     // Particle class representing each element in the simulation
@@ -158,15 +158,17 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
             const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
-            const radiusSq = particle.size ** 2; // Radius of the particle squared (assuming a circle with radius 5)
+            const radiusSq = particle.size ** 2;
 
-            console.log("Clicked (${mouseX}, ${mouseY} ${distanceSq} ${radiusSq}) ");
+            console.log('Clicked' ,mouseX, mouseY, distanceSq, radiusSq);
             
             if (distanceSq <= radiusSq) {
                 // Particle clicked!
                 if (particle.link) {
                     // Open the link in a new tab
-                    window.open(particle.link, '_blank');
+
+                    console.log('Opening', particle.link);
+                    window.open(particle.link, '_self');
                 } else {
                     // Do something else if there is no link associated with the particle
                     console.log(`Particle at (${particle.x}, ${particle.y}) clicked!`);
