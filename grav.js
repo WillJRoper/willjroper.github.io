@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.link = link;
             this.icon = icon; // Font Awesome unicode.
             this.size = 10;
-            isMouseOver = false;
+            this.isMouseOver = false;
         }
 
         // Method to update position with periodic boundary conditions
