@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const vx = -orbitSpeed * dy / distance;
         const vy = orbitSpeed * dx / distance;
 
-        particles.push(new Particle(x, y, mass, link, icon, vx, vy));
+        particles.push(new Particle(x, y, mass, link, 0, vx, vy));
     }
 
     function update() {
