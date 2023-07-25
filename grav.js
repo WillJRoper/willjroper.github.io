@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.scale(dpr, dpr);
 
     const G = 10; // Gravitational constant
-    let numParticles = 7;
+    let numParticles = 8;
 
     // Adjust this value to control the simulation speed
     const timeStep = 0.05;
@@ -21,14 +21,15 @@ document.addEventListener('DOMContentLoaded', function () {
                    "https://twitter.com/WillJRoper",
                    "https://github.com/willjroper",
                    "https://www.youtube.com/channel/UCqHvI4oq6PdLR1-jU0pRyng",
-                   "https://www.linkedin.com/in/william-roper-b1a527189/"];
-    const icons = ['\uf015', '\uf05a', null, null, null, null, null]
+                   "https://www.linkedin.com/in/william-roper-b1a527189/",
+                  'https://willjroper.github.io/games.html'];
+    const icons = ['\uf015', '\uf05a', null, null, null, null, null, '\uf11b'];
     const imgPaths = [null, null,
                       "pictures/socials/mail_white.png",
                       "pictures/socials/Twitter_white.png",
                       "pictures/socials/GitHub_white.png",
                       "pictures/socials/YT_white.png",
-                      "pictures/socials/LI_white.png"]
+                      "pictures/socials/LI_white.png", null];
 
     const dublicateItems = (arr, numberOfRepetitions) => 
           arr.flatMap(i => Array.from({ length: numberOfRepetitions }).fill(i));
@@ -163,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (particle.isMouseOver) {
                     ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
                 } else {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.55)";   
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.65)";   
                 }
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'center';
