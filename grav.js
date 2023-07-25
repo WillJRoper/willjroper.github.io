@@ -54,23 +54,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Create an array to hold all the particles
-    const particles = [];
-    
-    // Initialize particles with random positions, masses, and hyperlinks
-    for (let i = 0; i < numParticles; i++) {
+    function addParticle(i, x, y) {
 
-        // We want multiple copies of each particle.
-        const x = (Math.random() * canvas.width / 2) + (canvas.width / 4);
-        const y = (Math.random() * canvas.height / 2) + (canvas.height / 4);
+        // Define the properties of a particle
+        if (x == null) {
+            const x = (Math.random() * canvas.width / 2) + (canvas.width / 4);
+        }
+        if (y == null) {
+            const y = (Math.random() * canvas.height / 2) + (canvas.height / 4);
+        }
         const mass = 10 + Math.random() * 20;
         let link = null;
         let icon = null;
         let imgPath = null;
-        if (i < links.length) {
-            link = links[i];
-            icon = icons[i];
-            imgPath = imgPaths[i];
+        if (i != null) {
+            if (i < links.length) {
+                link = links[i];
+                icon = icons[i];
+                imgPath = imgPaths[i];
+            }
         }
 
         // Calculate the velocity components for orbiting around the center
@@ -91,16 +93,20 @@ document.addEventListener('DOMContentLoaded', function () {
         particles.push(
             new Particle(x, y, mass, link, icon, imgPath, vx, vy)
         );
+    };
+
+    // Create an array to hold all the particles
+    const particles = [];
+    
+    // Initialize particles with random positions, masses, and hyperlinks
+    for (let i = 0; i < numParticles; i++) {
+        addParticle(i, null, null);
     }
 
     // Place a fixed invisible heavy particle at the center
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const centerMass = 1000; // Adjust the mass as desired
-    
-    // Add the fixed center particle to the particles array
-    particles.push(new Particle(centerX, centerY, centerMass, null, null,
-                                null, 0, 0));
 
     function update() {
         // Clear the canvas
@@ -132,14 +138,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // Apply gravitational force from the fixed center particle
-            const centerParticle = particles[numParticles]; 
-            const dxCenter = centerParticle.x - particle1.x;
-            const dyCenter = centerParticle.y - particle1.y;
+            const dxCenter = centerX - particle1.x;
+            const dyCenter = centerY - particle1.y;
             const distanceCenterSq = dxCenter * dxCenter + dyCenter * dyCenter;
             const distanceCenter = Math.sqrt(distanceCenterSq);
         
             // Calculate gravitational force
-            const forceCenter = (G * particle1.mass * centerParticle.mass) / (distanceCenterSq + 50 ** 2);
+            const forceCenter = (G * particle1.mass * centerMass) / (distanceCenterSq + 50 ** 2);
         
             // Calculate components of the force
             const fxCenter = forceCenter * (dxCenter / distanceCenter);
@@ -150,9 +155,11 @@ document.addEventListener('DOMContentLoaded', function () {
             particle1.vy += (fyCenter / particle1.mass) * timeStep;
         }
 
-        // Update positions based on velocities with periodic boundary conditions
+        // Drift and draw the particles
         for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
+
+            // Drift the particles with periodic boundary conditions
             particle.updatePosition();
             
             // Draw particles on the canvas in white color
@@ -209,13 +216,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Request the next animation frame
         requestAnimationFrame(update);
-    }
+    };
 
     // Event listener for handling clicks on particles
     canvas.addEventListener('click', function (event) {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
+
+        // Flag if an icon was clicked on
+        let part_click = false;
         
         for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
@@ -223,6 +233,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const radiusSq = particle.size ** 2;
             
             if (distanceSq <= radiusSq) {
+
+                // The user clicked on a particle
+                part_click = true;
+                
                 // Particle clicked!
                 if (particle.link && particle.icon) {
                     // Open the link in this tab
@@ -236,6 +250,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 break; // No need to check other particles if one is already clicked
             }
+        }
+
+        // If it was a random click add a particle
+        if (!part_click){
+            addParticle(null, mouseX, mouseY);
         }
     });
 
