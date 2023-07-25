@@ -70,9 +70,9 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Calculate gravitational forces and update velocities
         for (let i = 0; i < numParticles; i++) {
+            const particle1 = particles[i];
             for (let j = 0; j < numParticles; j++) {
                 if (i !== j) {
-                    const particle1 = particles[i];
                     const particle2 = particles[j];
                     
                     const dx = particle2.x - particle1.x;
@@ -92,25 +92,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     particle1.vy += (fy / particle1.mass) * timeStep;
                 }
             }
+
+            // Apply gravitational force from the fixed center particle
+            const centerParticle = particles[numParticles]; 
+            const dxCenter = centerParticle.x - particle1.x;
+            const dyCenter = centerParticle.y - particle1.y;
+            const distanceCenterSq = dxCenter * dxCenter + dyCenter * dyCenter;
+            const distanceCenter = Math.sqrt(distanceCenterSq);
+        
+            // Calculate gravitational force
+            const forceCenter = (G * particle1.mass * centerParticle.mass) / distanceCenterSq;
+        
+            // Calculate components of the force
+            const fxCenter = forceCenter * (dxCenter / distanceCenter);
+            const fyCenter = forceCenter * (dyCenter / distanceCenter);
+            
+            // Update velocities of the particle based on the gravitational force from the center particle
+            particle1.vx += (fxCenter / particle1.mass) * timeStep;
+            particle1.vy += (fyCenter / particle1.mass) * timeStep;
         }
-
-        // Apply gravitational force from the fixed center particle
-        const centerParticle = particles[numParticles]; // The fixed center particle is at the end of the array
-        const dxCenter = centerParticle.x - particle.x;
-        const dyCenter = centerParticle.y - particle.y;
-        const distanceCenterSq = dxCenter * dxCenter + dyCenter * dyCenter;
-        const distanceCenter = Math.sqrt(distanceCenterSq);
-        
-        // Calculate gravitational force
-        const forceCenter = (G * particle.mass * centerParticle.mass) / distanceCenterSq;
-        
-        // Calculate components of the force
-        const fxCenter = forceCenter * (dxCenter / distanceCenter);
-        const fyCenter = forceCenter * (dyCenter / distanceCenter);
-
-        // Update velocities of the particle based on the gravitational force from the center particle
-        particle.vx += fxCenter / particle.mass;
-        particle.vy += fyCenter / particle.mass;
 
         // Update positions based on velocities with periodic boundary conditions
         for (let i = 0; i < numParticles; i++) {
