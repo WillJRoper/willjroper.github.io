@@ -22,14 +22,15 @@ document.addEventListener('DOMContentLoaded', function () {
                    "https://github.com/willjroper",
                    "https://www.youtube.com/channel/UCqHvI4oq6PdLR1-jU0pRyng",
                    "https://www.linkedin.com/in/william-roper-b1a527189/",
-                   'https://willjroper.github.io/games.html'];
-    const icons = ['\uf015', '\uf05a', null, null, null, null, null, '\uf11b'];
+                   'https://willjroper.github.io/games.html',
+                   'https://willjroper.github.io/publications.html'];
+    const icons = ['\uf015', '\uf05a', null, null, null, null, null, '\uf11b', '\uf1ea'];
     const imgPaths = [null, null,
                       "pictures/socials/mail_white.png",
                       "pictures/socials/Twitter_white.png",
                       "pictures/socials/GitHub_white.png",
                       "pictures/socials/YT_white.png",
-                      "pictures/socials/LI_white.png", null];
+                      "pictures/socials/LI_white.png", null, null];
 
     // Particle class representing each element in the simulation
     class Particle {
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // We want multiple copies of each particle.
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const mass = 10 + Math.random() * 4;
+        const mass = 10 + Math.random() * 20;
         let link = null;
         let icon = null;
         let imgPath = null;
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Place a fixed invisible heavy particle at the center
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const centerMass = 500; // Adjust the mass as desired
+    const centerMass = 1000; // Adjust the mass as desired
     
     // Add the fixed center particle to the particles array
     particles.push(new Particle(centerX, centerY, centerMass, null, null,
