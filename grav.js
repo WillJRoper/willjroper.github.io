@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const G = 10; // Gravitational constant
     const numParticles = 10;
 
+    // Adjust this value to control the simulation speed
+    const timeStep = 10;
+
     // Particle class representing each element in the simulation
     class Particle {
         constructor(x, y, mass, link, icon) {
@@ -21,8 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePosition() {
             this.x = ((this.x + this.vx) % canvas.width + canvas.width) % canvas.width;
             this.y = ((this.y + this.vy) % canvas.height + canvas.height) % canvas.height;
-
-            console.log(this.x, this.y);
         }
     }
 
@@ -63,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const fy = force * (dy / distance);
 
                     // Update velocities of the particles
-                    particle1.vx += fx / particle1.mass;
-                    particle1.vy += fy / particle1.mass;
+                    particle1.vx += (fx / particle1.mass) * timeStep;
+                    particle1.vy += (fy / particle1.mass) * timeStep;
                 }
             }
         }
