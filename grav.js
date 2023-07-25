@@ -19,7 +19,7 @@ var icons = [icon1, icon2];
 // Add more icons to the array as needed
 
 // Initialize initial velocities and accelerations to zero for all icons
-var velocities = Array.from({ length: icons.length }, () => ({ x: Math.random(), y: Math.random() }));
+var velocities = Array.from({ length: icons.length }, () => ({ x: 0, y: 0 }));
 var accelerations = Array.from({ length: icons.length }, () => ({ x: 0, y: 0 }));
 
 // Function to set initial positions of the icons
@@ -34,7 +34,7 @@ function setInitialPositions() {
         icons[i].style.left = initialX + 'px';
         icons[i].style.top = initialY + 'px';
 
-        velocities[i] = { x: 0, y: 0 };
+        velocities[i] = { x: Math.random(), y: Math.random() };
         accelerations[i] = { x: 0, y: 0 };
     }
 }
