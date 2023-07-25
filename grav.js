@@ -8,18 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Adjust this value to control the simulation speed
     const timeStep = 0.05;
 
-      // Function to convert Font Awesome icon to Image object
-    function getIconImage(iconName) {
-        const icon = document.createElement('i');
-        icon.classList.add('fas', iconName); // Assuming you're using Font Awesome Free (fas)
-        const iconSvg = icon.outerHTML;
-        const svgBlob = new Blob([iconSvg], { type: 'image/svg+xml;charset=utf-8' });
-        const svgUrl = URL.createObjectURL(svgBlob);
-        const image = new Image();
-        image.src = svgUrl;
-        return image;
-    }
-
     // Particle class representing each element in the simulation
     class Particle {
         constructor(x, y, mass, link, icon, vx, vy) {
@@ -48,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const y = Math.random() * canvas.height;
         const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
         const link = `https://example.com/${i}`; // Replace with the desired hyperlink
-        const icon = i % 2 === 0 ? 'fa-home' : 'fa-info-circle'; // Use different icons for even and odd particles
+        const icon = i % 2 === 0 ? 'fas fa-home' : 'fas fa-info-circle'; // Use different icons for even and odd particles
 
         // Calculate the velocity components for orbiting around the center
         const centerX = canvas.width / 2;
@@ -131,11 +119,14 @@ document.addEventListener('DOMContentLoaded', function () {
             
             // Draw particles on the canvas in white color
             if (particle.icon) {
-                const iconImage = getIconImage(particle.icon);
-                const iconSize = 20; // Adjust the size as needed
-                const x = particle.x - iconSize / 2; // Center the icon at the particle's position
-                const y = particle.y - iconSize / 2; // Center the icon at the particle's position
-                ctx.drawImage(iconImage, x, y, iconSize, iconSize);
+                // Use Font Awesome icon
+                ctx.font = '20px FontAwesome';
+                ctx.fillStyle = 'white';
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'center';
+                
+                // Draw the Font Awesome icon directly using the font
+                ctx.fillText(particle.icon, particle.x, particle.y);
             } else {
                 // Use circle for other particles
                 ctx.beginPath();
