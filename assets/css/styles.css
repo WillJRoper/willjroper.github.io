@@ -100,25 +100,30 @@ video {
     object-position: center; /* Center the image within the container */
 }
 
-.icon-link {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    font-size: 24px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 50%;
-    cursor: pointer;
-    object-fit: contain; /* Use 'contain' to preserve aspect ratio and fit within the container */
-    object-position: center; /* Center the image within the container */
+.page-icons {
+    position: fixed; /* Keep the social icons fixed in the top right corner */
+    top: 20px; /* Adjust the vertical position of the social icons */
+    left: 20px; /* Adjust the horizontal position of the social icons */
+    display: flex;
+    flex-direction: column;
 }
 
-.icon-link i {
-    /* Adjust icon styles as needed */
-    width: 50px;
+.page-icons a {
+    display: block;
+    margin-bottom: 10px; /* Add some space between the social media icons */
+    opacity: 0.5; /* Set the initial opacity */
+    transition: opacity 0.3s ease; /* Add a transition for the hover effect */
+}
+
+.page-icons a:hover {
+    opacity: 1; /* Increase opacity on hover */
+}
+
+.page-icons img {
+    width: 50px; /* Adjust the size of the social media icons */
     height: 50px;
+    object-fit: contain; /* Use 'contain' to preserve aspect ratio and fit within the container */
+    object-position: center; /* Center the image within the container */
 }
 
 /* Tooltip styles */
