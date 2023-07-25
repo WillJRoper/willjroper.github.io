@@ -11,7 +11,7 @@ var icon2 = document.getElementById('about');
 // Add more icons as needed
 
 // Set up the gravitational constant (adjust as needed for your simulation)
-var G = 0.000000001;
+var G = 0.01;
 
 // Create an array to store the icons
 var icons = [icon1, icon2];
@@ -105,7 +105,7 @@ function updatePositions() {
         // Update icon positions with periodic boundary conditions
         var newLeft = (icons[i].offsetLeft + (velocities[i].x * timestep)) % containerWidth;
         var newTop = (icons[i].offsetTop + (velocities[i].y * timestep)) % containerHeight;
-        console.log(newLeft, newTop);
+        console.log(newLeft, newTop, icons[i].style.left, icons[i].style.top);
         // Handle negative values (when the icon crosses the left or top boundary)
         newLeft = (newLeft >= 0) ? newLeft : containerWidth + newLeft;
         newTop = (newTop >= 0) ? newTop : containerHeight + newTop;
