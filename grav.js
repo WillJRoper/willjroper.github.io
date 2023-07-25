@@ -152,9 +152,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for handling clicks on particles
     canvas.addEventListener('click', function (event) {
-        const canvasRect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - canvasRect.left;
-        const mouseY = event.clientY - canvasRect.top;
+        const mouseX = event.offsetX;
+        const mouseY = event.offsetY;
 
         console.log('Clicked', mouseX, event.clientX, canvas.offsetLeft,
                     mouseY, event.clientY, canvas.offsetTop,);
