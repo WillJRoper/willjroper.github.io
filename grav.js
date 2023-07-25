@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.scale(dpr, dpr);
 
     const G = 10; // Gravitational constant
-    const numParticles = 7;
+    let numParticles = 7;
 
     // Adjust this value to control the simulation speed
     const timeStep = 0.05;
@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Make multiple copies of each particle
     dublicateItems(particles, 3);
+    numParticles = numParticles * 3;
 
     // Place a fixed invisible heavy particle at the center
     const centerX = canvas.width / 2;
