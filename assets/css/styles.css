@@ -119,7 +119,7 @@ video {
     opacity: 1; /* Increase opacity on hover */
 }
 
-.page-icons img {
+.page-icons i {
     width: 50px; /* Adjust the size of the social media icons */
     height: 50px;
     object-fit: contain; /* Use 'contain' to preserve aspect ratio and fit within the container */
