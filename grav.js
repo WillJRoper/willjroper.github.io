@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 // Use circle for other particles
                 ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size / 2,
+                ctx.arc(particle.x, particle.y, particle.size / 4,
                         0, 2 * Math.PI);
                 ctx.fillStyle = "rgba(255, 255, 255, 0.5)";   
                 ctx.fill();
