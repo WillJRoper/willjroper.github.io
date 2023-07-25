@@ -79,6 +79,13 @@ video {
     font-size: 18px;
 }
 
+/* Center the profile image in the middle of the video */
+.text-overlay .profile-picture {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .social-icons {
     position: fixed; /* Keep the social icons fixed in the top right corner */
     top: 20px; /* Adjust the vertical position of the social icons */
