@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < numParticles; i++) {
 
         // We want multiple copies of each particle.
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
+        const x = (Math.random() * canvas.width / 2) + (canvas.width / 4);
+        const y = (Math.random() * canvas.height / 2) + (canvas.height / 4);
         const mass = 10 + Math.random() * 20;
         let link = null;
         let icon = null;
