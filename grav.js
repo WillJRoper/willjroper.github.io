@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Method to update position with periodic boundary conditions
         updatePosition() {
-            this.x = (this.x + this.vx + canvas.width) % canvas.width;
-            this.y = (this.y + this.vy + canvas.height) % canvas.height;
+            this.x = ((this.x + this.vx) % canvas.width + canvas.width) % canvas.width;
+            this.y = ((this.y + this.vy) % canvas.height + canvas.height) % canvas.height;
 
             console.log(this.x, this.y);
         }
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
         const link = `https://example.com/${i}`; // Replace with the desired hyperlink
         const icon = i % 2 === 0 ? 'fa-bug' : 'fa-star'; // Use different icons for even and odd particles
-        particles.push(new Particle(x, y, mass, link, icon));
+        particles.push(new Particle(x, y, mass, link, 0));
     }
 
     function update() {
