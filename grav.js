@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.open(particle.link, '_self');
                 } else if (particle.link && particle.imagePath) {
                     // Open the link in a new tab
-                    window.open(particle.link, '_self');
+                    window.open(particle.link, '_blank');
                 } else {
                     // Do something else if there is no link associated with the particle
                     console.log(`Particle at (${particle.x}, ${particle.y}) clicked!`);
