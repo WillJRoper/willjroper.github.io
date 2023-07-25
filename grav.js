@@ -47,8 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const link = null;
             const icon = null;
         }
-        const link = `https://example.com/${i}`; // Replace with the desired hyperlink
-        const icon = i % 2 === 0 ? '\uf015' : '\uf05a'; // Use different icons for even and odd particles
 
         // Calculate the velocity components for orbiting around the center
         const centerX = canvas.width / 2;
