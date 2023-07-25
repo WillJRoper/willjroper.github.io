@@ -16,12 +16,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Define arrays of links and icons
     const links = ['https://willjroper.github.io',
-                   'https://willjroper.github.io/about.html'];
-    const icons = ['\uf015', '\uf05a']
+                   'https://willjroper.github.io/about.html',
+                   "mailto:w.roper@sussex.ac.uk",
+                   "https://twitter.com/WillJRoper",
+                   "https://github.com/willjroper",
+                   "https://www.youtube.com/channel/UCqHvI4oq6PdLR1-jU0pRyng",
+                   "https://www.linkedin.com/in/william-roper-b1a527189/"];
+    const icons = ['\uf015', '\uf05a', null, null, null, null, null]
+    const imgPaths = [null, null,
+                      "pictures/socials/mail_white.png",
+                      "pictures/socials/Twitter_white.png",
+                      "pictures/socials/GitHub_white.png",
+                      "pictures/socials/YT_white.png",
+                      "pictures/socials/LI_white.png"]
 
     // Particle class representing each element in the simulation
     class Particle {
-        constructor(x, y, mass, link, icon, vx, vy) {
+        constructor(x, y, mass, link, icon, imagePath, vx, vy) {
             this.x = x;
             this.y = y;
             this.mass = mass;
@@ -31,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.icon = icon; // Font Awesome unicode.
             this.size = 30;
             this.isMouseOver = false;
+            this.imagePath = imagePath;
         }
 
         // Method to update position with periodic boundary conditions
@@ -50,9 +62,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
         let link = null;
         let icon = null;
+        let imgPath = null;
         if (i < links.length) {
             link = links[i];
             icon = icons[i];
+            imgPath = imgPaths[i];
         }
 
         // Calculate the velocity components for orbiting around the center
@@ -70,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const vx = -orbitSpeed * dy / distance;
         const vy = orbitSpeed * dx / distance;
 
-        particles.push(new Particle(x, y, mass, link, icon, vx, vy));
+        particles.push(new Particle(x, y, mass, link, icon, imgPath, vx, vy));
     }
 
     // Place a fixed invisible heavy particle at the center
@@ -79,7 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const centerMass = 500; // Adjust the mass as desired
     
     // Add the fixed center particle to the particles array
-    particles.push(new Particle(centerX, centerY, centerMass, null, null, 0, 0));
+    particles.push(new Particle(centerX, centerY, centerMass, null, null,
+                                null, 0, 0));
 
     function update() {
         // Clear the canvas
@@ -148,6 +163,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 // Draw the Font Awesome icon directly using the font
                 ctx.fillText(particle.icon, particle.x, particle.y, particle.size);
+                
+            } else if (particle.imagePath) {
+                
+                // Use image for the particle's icon
+                const img = new Image();
+                img.src = particle.imagePath;
+
+                // Draw the image on the canvas with the desired opacity
+                ctx.globalAlpha = particle.isMouseOver ? 1 : 0.5;
+                ctx.drawImage(img, particle.x - particle.size / 2,
+                              particle.y - particle.size / 2, particle.size,
+                              particle.size);
+                ctx.globalAlpha = 0.5; 
+                
             } else {
                 // Use circle for other particles
                 ctx.beginPath();
@@ -183,10 +212,11 @@ document.addEventListener('DOMContentLoaded', function () {
             
             if (distanceSq <= radiusSq) {
                 // Particle clicked!
-                if (particle.link) {
+                if (particle.link && particle.icon) {
+                    // Open the link in this tab
+                    window.open(particle.link, '_self');
+                } else if (particle.link && particle.imagePath) {
                     // Open the link in a new tab
-
-                    console.log('Opening', particle.link);
                     window.open(particle.link, '_self');
                 } else {
                     // Do something else if there is no link associated with the particle
