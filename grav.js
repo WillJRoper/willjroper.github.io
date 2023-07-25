@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.vy = vy;
             this.link = link;
             this.icon = icon; // Font Awesome unicode.
-            this.size = 10;
+            this.size = 30;
             this.isMouseOver = false;
         }
 
