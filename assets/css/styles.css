@@ -38,14 +38,14 @@ video {
 
 .text-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 20px;
+    left: 20px;
     text-align: center;
     color: white;
     z-index: 1;
     display: flex; /* Use flexbox to align items side by side */
     align-items: center; /* Center items vertically */
+    flex-direction: column;
 }
 
 .profile-picture {
