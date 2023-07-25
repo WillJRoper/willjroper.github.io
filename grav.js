@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Place a fixed invisible heavy particle at the center
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
-    const centerMass = 100; // Adjust the mass as desired
+    const centerMass = 500; // Adjust the mass as desired
     
     // Add the fixed center particle to the particles array
     particles.push(new Particle(centerX, centerY, centerMass, null, null, 0, 0));
