@@ -107,6 +107,17 @@ video {
     flex-direction: column;
 }
 
+.bottom-text {
+    position: absolute;
+    bottom: 20px; /* Adjust the distance from the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    z-index: 1;
+}
+
 .page-icons a {
     display: block;
     margin-bottom: 10px; /* Add some space between the social media icons */
@@ -151,3 +162,5 @@ video {
   height: 100%; 
   z-index: 1;
 }
+
+
