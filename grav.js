@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const numParticles = 10;
 
     // Adjust this value to control the simulation speed
-    const timeStep = 0.01;
+    const timeStep = 0.05;
 
     // Particle class representing each element in the simulation
     class Particle {
-        constructor(x, y, mass, link, icon) {
+        constructor(x, y, mass, link, icon, vx, vy) {
             this.x = x;
             this.y = y;
             this.mass = mass;
-            this.vx = 0;
-            this.vy = 0;
+            this.vx = vx;
+            this.vy = vy;
             this.link = link;
             this.icon = icon; // Font Awesome icon name, e.g., 'fa-bug', 'fa-star', etc.
         }
@@ -37,7 +37,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const mass = 1 + Math.random() * 4; // Random mass between 1 and 5
         const link = `https://example.com/${i}`; // Replace with the desired hyperlink
         const icon = i % 2 === 0 ? 'fa-bug' : 'fa-star'; // Use different icons for even and odd particles
-        particles.push(new Particle(x, y, mass, link, 0));
+
+        // Calculate the velocity components for orbiting around the center
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const dx = x - centerX;
+        const dy = y - centerY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx);
+
+        // Calculate the initial speed for orbiting (adjust this value to control the orbit speed)
+        const orbitSpeed = 0.1;
+
+        // Calculate the initial velocities vx and vy
+        const vx = -orbitSpeed * dy / distance;
+        const vy = orbitSpeed * dx / distance;
+
+        particles.push(new Particle(x, y, mass, link, icon, vx, vy));
     }
 
     function update() {
