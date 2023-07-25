@@ -101,7 +101,7 @@ function updatePositions() {
         // Update icon positions with periodic boundary conditions
         var newLeft = (icons[i].style.left + (velocities[i].x * timestep)) % containerWidth;
         var newTop = (icons[i].style.top + (velocities[i].y * timestep)) % containerHeight;
-        
+        console.log(newLeft, newTop);
         // Handle negative values (when the icon crosses the left or top boundary)
         newLeft = (newLeft >= 0) ? newLeft : containerWidth + newLeft;
         newTop = (newTop >= 0) ? newTop : containerHeight + newTop;
