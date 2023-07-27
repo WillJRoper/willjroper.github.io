@@ -8,6 +8,7 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
 }
 
 .video-container {
@@ -154,13 +155,13 @@ video {
 
 /* CSS styles for the canvas overlay */
 #canvas-overlay {
-  position: absolute;
-  display: flex; /* Use flexbox to align items side by side */
-  justify-content: center;
-  align-items: center; /* Center items vertically */
-  width: 100%; 
-  height: 100%; 
-  z-index: 1;
+    position: relative;
+    display: flex; /* Use flexbox to align items side by side */
+    justify-content: center;
+    align-items: center; /* Center items vertically */
+    width: 100%; 
+    height: 100%; 
+    z-index: 1;
 }
 
 

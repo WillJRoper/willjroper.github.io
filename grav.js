@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('canvas-overlay');
     const ctx = canvas.getContext('2d');
+    const outer = document.getElementById('video-container');
 
     // Scale the the number of pixels
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = canvas.clientWidth * dpr;
-    canvas.height = canvas.clientHeight * dpr;
-    ctx.scale(dpr, dpr);
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
 
     const G = 10; // Gravitational constant
     let numParticles = 50;
