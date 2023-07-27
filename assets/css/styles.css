@@ -156,7 +156,7 @@ video {
 #canvas-overlay {
   position: absolute;
   display: flex; /* Use flexbox to align items side by side */
-  justify-content: center
+  justify-content: center;
   align-items: center; /* Center items vertically */
   width: 100%; 
   height: 100%; 
