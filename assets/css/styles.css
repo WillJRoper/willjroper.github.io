@@ -79,6 +79,7 @@ video {
     right: 20px; /* Adjust the horizontal position of the social icons */
     display: flex;
     flex-direction: column;
+    z-index: 2;
 }
 
 .social-icons a {
@@ -154,10 +155,9 @@ video {
 /* CSS styles for the canvas overlay */
 #canvas-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  display: flex; /* Use flexbox to align items side by side */
+  justify-content: center
+  align-items: center; /* Center items vertically */
   width: 100%; 
   height: 100%; 
   z-index: 1;
