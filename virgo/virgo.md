@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .spreadsheet-container iframe {
         transform: scale(0.8); /* Scale down */
         transform-origin: top left;
-        width: 125%; /* Compensate for scaling */
-        height: 125%;
+        width: 120%; /* Compensate for scaling */
+        height: 120%;
         border: none;
     }
 </style>
