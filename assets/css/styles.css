@@ -175,7 +175,7 @@ video {
 .jms {
     display: block;
     margin: 20px auto;
-    width: 60%;
-    max-width: 400px;
+    width: 50%;
+    max-width: 300px;
     height: auto; /* Ensures aspect ratio is maintained */
 }
