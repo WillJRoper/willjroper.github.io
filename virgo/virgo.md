@@ -6,7 +6,7 @@ author: "Will Roper"
 ---
 
 <p align="center" width=
-  <img src="/assets/images/virgo-logo.png" width=600px alt="Virgo Consortiuum Logo">
+  <img src="/assets/images/virgo-logo.png" width="600" alt="Virgo Consortiuum Logo">
 </p>
 
 # Conference Information
