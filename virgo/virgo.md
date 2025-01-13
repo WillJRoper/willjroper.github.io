@@ -1,5 +1,4 @@
 ---
-layout: minimal
 title: "Virgo Conference"
 description: "Information about the Virgo conference"
 author: "Will Roper"
@@ -68,8 +67,8 @@ The university provides [comprehensive travel instructions](https://www.sussex.a
 ### Specific Instructions:
 
 - **By Bus from Brighton**: Take the **25** bus and get off at the **North South Road stop**, just up the road from the venue.
-- **From Lewes**: Take the **29A**, **Regency 28**, or **Regency 29** to Falmer station, then walk to the campus.
-- **Driving**: Please contact us immediately if you plan to drive so we can look into securing temporary permits. Note that parking on campus is highly discouraged due to ongoing construction and limited availability.
+- **From Lewes**: Take the **29A**, **Regency 28**, or **Regency 29** to Falmer station, then walk to the campus (instructions below).
+- **Driving**: **Please contact us immediately if you plan to drive so we can look into securing temporary permits**. I would discourage parking on campus is highly discouraged due to ongoing construction and limited availability.
 
 ## Travel to JMS Lecture Theatre
 
