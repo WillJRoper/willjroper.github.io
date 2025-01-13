@@ -130,7 +130,9 @@ Enter through the doors highlighted in the photo below. Once inside, the lecture
 
 ## Remote Attendance
 
-We’ll use Zoom so that people couldn't make it can still take part. This link is:
+We’ll use of Zoom so that people couldn't make it can still take part.
+
+- The zoom room can be found [here](https://universityofsussex.zoom.us/j/94533148306?pwd=10DlvbYaZOkytfIMS4NP20o3dy91Ur.1)
 
 Please do share these details with anyone who may be interested.
 
