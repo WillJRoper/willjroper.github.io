@@ -5,6 +5,10 @@ description: "Information about the Virgo conference"
 author: "Will Roper"
 ---
 
+<p align="center">
+  <img src="/assets/images/virgo-logo.png" width="200" alt="Virgo Conference Logo">
+</p>
+
 # Conference Information
 
 ## Location
