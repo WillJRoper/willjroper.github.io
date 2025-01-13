@@ -6,7 +6,7 @@ author: "Will Roper"
 ---
 
 <p align="center" width=
-  <img src="/assets/images/virgo-logo.png" alt="Virgo Consortiuum Logo" style="width: 80%; max-width: 600px;">
+  <img src="/assets/images/virgo-logo.png" width=600px alt="Virgo Consortiuum Logo">
 </p>
 
 # Conference Information
@@ -27,7 +27,7 @@ BN1 9PU
 
 ## Travel to Campus
 
-The university provides [comprehensive travel instructions](https://www.sussex.ac.uk/about/directions) for various transport methods.
+The university provides [comprehensive travel instructions](https://www.sussex.ac.uk/about/directions) for every transport method you could imagine.
 
 ### Specific Instructions:
 
