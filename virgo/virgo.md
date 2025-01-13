@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     headers.forEach(function (header) {
         if (header.innerText.includes("Table of Contents")) return; // Ignore TOC itself
-        if (header.innerText.includes("Under Construction")) return;
+        if (header.innerText.includes("Under Construction")) return; // Ignore TOC itself
         var title = header.innerText;
         var id = title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
         header.id = id; // Assign an ID dynamically
@@ -56,22 +56,19 @@ document.addEventListener("DOMContentLoaded", function () {
         max-width: 1000px;
         height: 600px;
         margin: auto;
-        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
     }
     .spreadsheet-container iframe {
-        transform: scale(0.8); /* Scale down */
-        transform-origin: top left;
-        width: 120%; /* Compensate for scaling */
-        height: 120%;
+        width: 100%;
+        height: 100%;
         border: none;
     }
 </style>
 
 <div class="spreadsheet-container">
-    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHSaH0Ea2GOTSLVIhTcmQ3pG8LPb5WOQvBtnp6ndPM2k2UsFJL0SRAdJzW2Hxop7w_puLGwn08vtZc/pubhtml?gid=377391167&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2pacx-1vshsah0ea2gotslvihtcmq3pg8lpb5woqvbtnp6ndpm2k2usfjl0sradjzw2hxop7w_pulgwn08vtzc/pubhtml?gid=377391167&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
 </div>
 
 ## Slack
