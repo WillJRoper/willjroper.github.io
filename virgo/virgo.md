@@ -31,10 +31,11 @@ function toggleToc() {
 // Auto-generate the Table of Contents
 document.addEventListener("DOMContentLoaded", function () {
     var tocContainer = document.getElementById("toc-container");
-    var headers = document.querySelectorAll("h2, h3");
+    var headers = document.querySelectorAll("h2, h3"); // Select only h2 and h3
     var tocList = "<ul>";
 
     headers.forEach(function (header) {
+        if (header.innerText.includes("Table of Contents")) return; // Ignore TOC itself
         var title = header.innerText;
         var id = title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
         header.id = id; // Assign an ID dynamically
@@ -48,7 +49,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 ## Schedule
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHSaH0Ea2GOTSLVIhTcmQ3pG8LPb5WOQvBtnp6ndPM2k2UsFJL0SRAdJzW2Hxop7w_puLGwn08vtZc/pubhtml?gid=377391167&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+<style>
+    .spreadsheet-container {
+        width: 100%;
+        max-width: 1000px;
+        height: 600px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .spreadsheet-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+
+<div class="spreadsheet-container">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHSaH0Ea2GOTSLVIhTcmQ3pG8LPb5WOQvBtnp6ndPM2k2UsFJL0SRAdJzW2Hxop7w_puLGwn08vtZc/pubhtml?gid=377391167&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+</div>
 
 ## Slack
 
