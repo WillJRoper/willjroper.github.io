@@ -55,13 +55,16 @@ document.addEventListener("DOMContentLoaded", function () {
         max-width: 1000px;
         height: 600px;
         margin: auto;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
     }
     .spreadsheet-container iframe {
-        width: 100%;
-        height: 100%;
+        transform: scale(0.8); /* Scale down */
+        transform-origin: top left;
+        width: 125%; /* Compensate for scaling */
+        height: 125%;
         border: none;
     }
 </style>
