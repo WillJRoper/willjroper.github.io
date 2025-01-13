@@ -1,3 +1,10 @@
+---
+layout: minimal
+title: "Virgo Conference"
+description: "Information about the Virgo conference"
+author: "Will Roper"
+---
+
 # Conference Information
 
 ## Location
