@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
 During the meeting, the **Virgo Slack** will be the primary communication method.
 
 - **Slack Workspace**: [virgo-network.slack.com](https://virgo-network.slack.com)
-- **Invite Link**: [Join Virgo Slack](https://join.slack.com/t/virgo-network/shared_invite/zt-2vr4utc5v-rYKN5hRItGd8HiDW~XSvAQ)
+- **Invite Link**: Please request the invite link from someone in the Slack (or email w.roper@sussex.ac.uk)
 
 ## Location
 
