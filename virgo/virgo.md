@@ -1,11 +1,12 @@
 ---
+layout: minimal
 title: "Virgo Conference"
 description: "Information about the Virgo conference"
 author: "Will Roper"
 ---
 
-<p align="center">
-  <img src="/assets/images/virgo-logo.png" width="200" alt="Virgo Consortiuum Logo">
+<p align="center" width=
+  <img src="/assets/images/virgo-logo.png" alt="Virgo Consortiuum Logo" style="width: 80%; max-width: 600px;">
 </p>
 
 # Conference Information
