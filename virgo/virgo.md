@@ -31,7 +31,7 @@ function toggleToc() {
 // Auto-generate the Table of Contents
 document.addEventListener("DOMContentLoaded", function () {
     var tocContainer = document.getElementById("toc-container");
-    var headers = document.querySelectorAll("h2, h3"); // Select only h2 and h3
+    var headers = document.querySelectorAll("h2"); // Select only h2 headers
     var tocList = "<ul>";
 
     headers.forEach(function (header) {
