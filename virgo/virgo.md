@@ -11,6 +11,42 @@ author: "Will Roper"
 
 # Conference Information
 
+<h2 onclick="toggleToc()" style="cursor: pointer;">
+    ▶ Table of Contents
+</h2>
+<div id="toc-container" style="display: none;"></div>
+
+<script>
+function toggleToc() {
+    var toc = document.getElementById("toc-container");
+    var heading = event.target;
+    if (toc.style.display === "none") {
+        toc.style.display = "block";
+        heading.innerHTML = "▼ Table of Contents";
+    } else {
+        toc.style.display = "none";
+        heading.innerHTML = "▶ Table of Contents";
+    }
+}
+
+// Auto-generate the Table of Contents
+document.addEventListener("DOMContentLoaded", function () {
+    var tocContainer = document.getElementById("toc-container");
+    var headers = document.querySelectorAll("h2, h3");
+    var tocList = "<ul>";
+
+    headers.forEach(function (header) {
+        var title = header.innerText;
+        var id = title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
+        header.id = id; // Assign an ID dynamically
+        tocList += `<li><a href="#${id}">${title}</a></li>`;
+    });
+
+    tocList += "</ul>";
+    tocContainer.innerHTML = tocList;
+});
+</script>
+
 ## Location
 
 The meeting will take place in the JMS lecture theatre:
