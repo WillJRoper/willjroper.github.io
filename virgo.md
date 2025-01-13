@@ -4,6 +4,8 @@ description: "Information about the Virgo conference"
 author: "Will Roper"
 ---
 
+<link rel="stylesheet" href="/assets/css/style.css">
+
 <p align="center">
   <img class="conference-logo" src="/assets/images/virgo-logo.png" alt="Virgo Consortiuum Logo">
 </p>
