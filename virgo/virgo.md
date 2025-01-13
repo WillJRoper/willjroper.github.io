@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     headers.forEach(function (header) {
         if (header.innerText.includes("Table of Contents")) return; // Ignore TOC itself
+        if (header.innerText.includes("Under Construction")) return;
         var title = header.innerText;
         var id = title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
         header.id = id; // Assign an ID dynamically
