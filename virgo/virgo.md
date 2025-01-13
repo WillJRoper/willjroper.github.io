@@ -8,7 +8,7 @@ author: "Will Roper"
   <img class="conference-logo" src="/assets/images/virgo-logo.png" alt="Virgo Consortiuum Logo">
 </p>
 
-# Conference Information
+# Virgo Meeting 2025
 
 <h2 onclick="toggleToc()" style="cursor: pointer;">
     ▶ Table of Contents
@@ -46,6 +46,17 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+## Schedule
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHSaH0Ea2GOTSLVIhTcmQ3pG8LPb5WOQvBtnp6ndPM2k2UsFJL0SRAdJzW2Hxop7w_puLGwn08vtZc/pubhtml?gid=377391167&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+## Slack
+
+During the meeting, the **Virgo Slack** will be the primary communication method.
+
+- **Slack Workspace**: [virgo-network.slack.com](https://virgo-network.slack.com)
+- **Invite Link**: [Join Virgo Slack](https://join.slack.com/t/virgo-network/shared_invite/zt-2vr4utc5v-rYKN5hRItGd8HiDW~XSvAQ)
+
 ## Location
 
 The meeting will take place in the JMS lecture theatre:
@@ -62,19 +73,20 @@ BN1 9PU
 
 ## Travel to Campus
 
-The university provides [comprehensive travel instructions](https://www.sussex.ac.uk/about/directions) for every transport method you could imagine.
+The university provides [comprehensive travel instructions](https://www.sussex.ac.uk/about/directions) for almost every transport method you could desire.
 
-### Specific Instructions:
+### More Specific Instructions:
 
+- **By Train from Brighton/Lewes**: Take a train to Falmer station and walk to campus (instructions below).
 - **By Bus from Brighton**: Take the **25** bus and get off at the **North South Road stop**, just up the road from the venue.
-- **From Lewes**: Take the **29A**, **Regency 28**, or **Regency 29** to Falmer station, then walk to the campus (instructions below).
+- **From Bus from Lewes**: Take the **29A**, **Regency 28**, or **Regency 29** to Falmer station, then walk to the campus (instructions below).
 - **Driving**: **Please contact us immediately if you plan to drive so we can look into securing temporary permits**. I would discourage parking on campus is highly discouraged due to ongoing construction and limited availability.
 
-## Travel to JMS Lecture Theatre
+## Finding the venue
 
 ### From the Train Station:
 
-1. Leave the station from the side without the massive stadium (the **A27** side).
+1. Leave the station from the side without the massive stadium (the A27 side).
 2. Go under the underpass.
 3. Continue past the concrete "University of Sussex" sign.
 4. At the zebra crossing, turn right up the road (you should see **Sussex House** on your left and a car park on your right).
@@ -85,13 +97,19 @@ The university provides [comprehensive travel instructions](https://www.sussex.a
 1. Walk **South** down the road.
 2. The lecture theatre will be on your **left**.
 
-### Entrance:
+### Finding the lecture theatre
 
 Enter through the doors highlighted in the photo below. Once inside, the lecture theatre is on your immediate right.
 
+<p align="center">
+  <img class="jms" src="/assets/images/IMG_1331.jpeg" alt="JMS Lecture Theatre">
+</p>
+
 ## Remote Attendance
 
-We’ll use Zoom for sharing talks. This approach streamlines hybrid delivery and allows presenters to use their own machines.
+We’ll use Zoom so that people couldn't make it can still take part. This link is:
+
+Please do share these details with anyone who may be interested.
 
 ## Speaker Information
 
@@ -101,13 +119,13 @@ We’ll use Zoom for sharing talks. This approach streamlines hybrid delivery an
 
 ## Social Events
 
-We have planned several social events to foster collaboration and camaraderie:
+We will not be having a traditional conference dinner during the meeting. We came to this decision for several reasons but primarily because Virgo dinners have traditionally been free and we do not have the funds to continue this tradition. Instead, we are planning social events to bring everyone together and fuel collaboration.
 
 ### Tuesday, 21st:
 
 - **Pub Quiz** at **Falmer Bar**, hosted by the LOC.
 - Food and drinks are available at the bar, and deliveries from nearby establishments are common.
-- The quiz starts at **19:00**. Rules will be shared closer to the time.
+- The quiz starts at **19:00**. Rules will be shared closer to the time by the quizmasters.
 
 ### Wednesday, 22nd:
 
@@ -115,14 +133,7 @@ We have planned several social events to foster collaboration and camaraderie:
 
 ### Thursday, 23rd:
 
-- **LaserZone Trip**: A tradition at Sussex Astronomy Centre.
+- **LaserZone Trip** (a graduation tradition in the Sussex Astronomy Centre)
   - [LaserZone Brighton](https://www.laserzone.co.uk/brighton/)
-  - Prices: £8.50 (1 game) to £19.00 (3 games), depending on interest.
+  - Prices: £8.50 (1 game) to £19.00 (3 games).
   - We will gauge interest during the meeting and book accordingly.
-
-## Slack
-
-During the meeting, the **Virgo Slack** will be the primary communication method.
-
-- **Slack Workspace**: [virgo-network.slack.com](https://virgo-network.slack.com)
-- **Invite Link**: [Join Virgo Slack](https://join.slack.com/t/virgo-network/shared_invite/zt-2vr4utc5v-rYKN5hRItGd8HiDW~XSvAQ)
