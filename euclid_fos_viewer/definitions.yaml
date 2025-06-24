@@ -1,0 +1,44 @@
+main:
+  name: "main"
+  dzi: "main/euclid.dzi"
+  ra: "06:10:05.23"
+  dec: "-33:31:12.91"
+  area: 132 # total sky coverage in square degrees
+
+others:
+  - name: "distant_spiral"
+    dzi: "distant_spiral/distant_spiral.dzi"
+    ra: "06:10:05.23"
+    dec: "-33:31:12.91"
+    area: 0.0004 # sky coverage in square degrees
+
+  - name: "extragalactic_patch"
+    dzi: "extragalactic_patch/extragalactic_patch.dzi"
+    ra: "06:12:50.65"
+    dec: "-35:12:33.44"
+    area: 17 # sky coverage in square degrees
+
+  - name: "interacting_galaxies"
+    dzi: "interacting_galaxies/interacting_galaxies.dzi"
+    ra: "06:10:01.48"
+    dec: "-33:49:36.85"
+    area: 0.007
+
+  - name: "abell_3381"
+    dzi: "abell_3381/abell_3381.dzi"
+    ra: "06:10:05.23"
+    dec: "-33:31:12.91"
+    area: 0.12
+
+  - name: "ngc_2188"
+    dzi: "ngc_2188/ngc_2188.dzi"
+    ra: "06:10:01.48"
+    dec: "-33:49:36.85"
+    area: 1.1
+
+  # add more images as needed:
+  # - name: "imageB"
+  #   dzi: "imageB/imageB.dzi"
+  #   ra: "06:09:50.00"
+  #   dec: "-33:32:00.00"
+  #   area: 10
