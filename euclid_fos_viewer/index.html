@@ -1,4 +1,4 @@
-<!doctype html>
+!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -49,13 +49,25 @@
     <script>
       const STORAGE_KEY = "euclid_home_view";
 
-      // 1. Initialize viewer
       const viewer = OpenSeadragon({
         element: "viewer",
         prefixUrl:
           "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
         tileSources: "euclid.dzi",
         showNavigator: true,
+
+        // ← Add these overrides:
+        maxZoomPixelRatio: 4, // allow 4×4 display px per image px
+        minZoomImageRatio: 0.5, // allow zoom-out until half the image fits
+        defaultZoomLevel: 1, // start fully zoomed out (1:1 to fit width)
+
+        // make sure your mouse/touch gestures still zoom:
+        gestureSettingsMouse: {
+          scrollToZoom: true,
+          clickToZoom: false,
+          dblClickToZoom: true,
+          pinchToZoom: true,
+        },
       });
 
       // 2. On open, apply saved viewport if present
