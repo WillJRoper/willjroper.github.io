@@ -46,6 +46,22 @@
       <button id="saveHome">Set Home View</button>
     </div>
 
+    <div
+      id="debug"
+      style="
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        padding: 0.5em;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-family: monospace;
+        z-index: 100;
+      "
+    >
+      debug info
+    </div>
+
     <script>
       const STORAGE_KEY = "euclid_home_view";
 
@@ -57,7 +73,7 @@
         showNavigator: true,
 
         // ← Add these overrides:
-        maxZoomPixelRatio: 10, // allow 4×4 display px per image px
+        maxZoomPixelRatio: 10, // allow zooming in up to 10x
         minZoomImageRatio: 0.7, // allow zooming out to 70% of image size
         defaultZoomLevel: 1, // start fully zoomed out (1:1 to fit width)
 
@@ -129,6 +145,32 @@
         ].forEach((evt) => viewer.addHandler(evt, reset));
         reset();
       }
+
+      // grab the debug panel
+      const debug = document.getElementById("debug");
+
+      // helper to update the panel
+      function updateDebugInfo() {
+        const item = viewer.world.getItemAt(0);
+        const bounds = viewer.viewport.getBounds(); // in viewport coords
+        const imgRect = item.viewportToImageRectangle(bounds); // in image pixels
+        const zoom = viewer.viewport.getZoom(true).toFixed(2); // true = image‐pixels per viewport unit
+        debug.textContent = [
+          `zoom: ${zoom} px/unit`,
+          `view size: ${Math.round(imgRect.width)}×${Math.round(imgRect.height)} px`,
+          `view origin: ${Math.round(imgRect.x)},${Math.round(imgRect.y)}`,
+        ].join("  |  ");
+      }
+
+      // wire it up on all pan/zoom events
+      ["viewport-change", "canvas-scroll", "canvas-drag", "zoom"].forEach(
+        (evt) => {
+          viewer.addHandler(evt, updateDebugInfo);
+        },
+      );
+
+      // also call once on open
+      viewer.addHandler("open", updateDebugInfo);
     </script>
   </body>
 </html>
