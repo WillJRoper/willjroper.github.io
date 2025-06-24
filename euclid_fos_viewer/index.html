@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Euclid FOS Viewer</title>
+
+    <!-- Gigapan’s krpano embed library -->
+    <script src="https://www.gigapan.org/js/embedpano.js"></script>
+
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      #controls {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        z-index: 10;
+      }
+
+      #controls button {
+        padding: 0.5em 1em;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="pano" style="width: 100vw; height: 100vh"></div>
+    <div id="controls">
+      <button id="saveView">Save Current View</button>
+    </div>
+
+    <script>
+      const STORAGE_KEY = "euclid_pano_view";
+
+      // 1. Try to load a saved view (if any)
+      let saved = null;
+      try {
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      } catch (_) {}
+
+      // 2. Build the embed config
+      const cfg = {
+        xml: "https://www.gigapan.org/gigapans/226621/pano.xml",
+        target: "pano",
+        html5: "auto",
+        onready: (krpano) => {
+          const btn = document.getElementById("saveView");
+          btn.addEventListener("click", () => {
+            // grab the user’s current pan/tilt/zoom
+            const h = parseFloat(krpano.get("view.hlookat"));
+            const v = parseFloat(krpano.get("view.vlookat"));
+            const fov = parseFloat(krpano.get("view.fov"));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ h, v, fov }));
+            alert(
+              `Saved view:\n h=${h.toFixed(1)}, v=${v.toFixed(1)}, fov=${fov.toFixed(1)}`,
+            );
+            // once saved, kick off inactivity→reload behavior
+            startInactivityReload();
+          });
+
+          // if we already had a saved view, start idle reload right away
+          if (saved) startInactivityReload();
+
+          // helper to set up “reload after N ms of no interaction”
+          function startInactivityReload() {
+            const INACTIVITY_LIMIT = 30_000; // e.g. 30s
+            let timer;
+            function resetTimer() {
+              clearTimeout(timer);
+              timer = setTimeout(() => location.reload(), INACTIVITY_LIMIT);
+            }
+            [
+              "mousemove",
+              "mousedown",
+              "keydown",
+              "touchstart",
+              "scroll",
+            ].forEach((evt) =>
+              document.addEventListener(evt, resetTimer, { passive: true }),
+            );
+            resetTimer();
+          }
+        },
+      };
+
+      // 3. If we have a saved view, apply it as initvars
+      if (saved) {
+        cfg.initvars = {
+          "view.hlookat": saved.h,
+          "view.vlookat": saved.v,
+          "view.fov": saved.fov,
+        };
+      }
+
+      // 4. Fire up the viewer
+      embedpano(cfg);
+    </script>
+  </body>
+</html>
