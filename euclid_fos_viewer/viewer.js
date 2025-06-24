@@ -59,13 +59,6 @@ function openMainImage() {
 function renderRegions(key) {
   viewer.clearOverlays();
 
-  // 1) Determine how many viewport units correspond to 5 screen pixels
-  const containerSize = viewer.viewport.getContainerSize(); 
-  const overlayScreenSize = 5;
-  const vpWidth  = overlayScreenSize / containerSize.x;
-  const vpHeight = overlayScreenSize / containerSize.y;
-  const overlaySize = vpWidth > vpHeight ? vpWidth : vpHeight;
-
   (regions[key] || []).forEach(def => {
     // 2) Find the region center in viewport coordinates
     const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
@@ -73,10 +66,10 @@ function renderRegions(key) {
 
     // 3) Build a small viewport‐space rectangle centered on that point
     const vpRect = new OpenSeadragon.Rect(
-      vpCenter.x - vpWidth  / 2,
-      vpCenter.y - vpHeight / 2,
-      overlaySize,
-      overlaySize
+      vpCenter.x,
+      vpCenter.y,
+      0.01,
+      0.01
     );
 
     console.log('Creating hotspot for', def.name, 'at', vpRect);
