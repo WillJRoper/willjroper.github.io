@@ -1,4 +1,4 @@
-!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -28,7 +28,7 @@
 
       #controls {
         position: absolute;
-        top: 1rem;
+        bottom: 1rem;
         right: 1rem;
         z-index: 10;
       }
@@ -36,6 +36,10 @@
       #controls button {
         padding: 0.5em 1em;
         font-size: 1rem;
+      }
+
+      #controls button.hidden {
+        display: none;
       }
     </style>
   </head>
@@ -86,6 +90,11 @@
         },
       });
 
+      // Hides the save button
+      function hideSaveButton() {
+        document.getElementById("saveHome").classList.add("hidden");
+      }
+
       // 2. On open, apply saved viewport if present
       viewer.addHandler("open", () => {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
@@ -98,6 +107,7 @@
           );
           viewer.viewport.fitBounds(rect, true);
           startIdleReset();
+          hideSaveButton();
         }
       });
 
@@ -113,6 +123,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
         alert("Home view saved!");
         startIdleReset();
+        hideSaveButton();
       });
 
       // 4. Idle detector: after 30 s no interaction, snap back to home
@@ -157,7 +168,9 @@
         const zoom = viewer.viewport.getZoom(true).toFixed(2); // true = image‐pixels per viewport unit
         debug.textContent = [
           `zoom: ${zoom} px/unit`,
-          `view size: ${Math.round(imgRect.width)}×${Math.round(imgRect.height)} px`,
+          `view size: ${Math.round(imgRect.width)}×${Math.round(
+            imgRect.height,
+          )} px`,
           `view origin: ${Math.round(imgRect.x)},${Math.round(imgRect.y)}`,
         ].join("  |  ");
       }
