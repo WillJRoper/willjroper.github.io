@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Euclid FOS Viewer</title>
 
-    <!-- OpenSeadragon from CDN -->
+    <!-- OpenSeadragon & js-yaml -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/openseadragon.min.js"
-      integrity="sha512-…"
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/nerd-fonts/2.1.0/css/hack.css"
+    />
 
     <style>
       html,
@@ -20,17 +27,62 @@
         margin: 0;
       }
 
+      body,
+      code,
+      pre {
+        font-family: "Hack Nerd Font", monospace;
+      }
+
       #viewer {
+        position: relative;
         width: 100%;
         height: 100%;
-        background: black;
+        background: #000;
+      }
+
+      .region-hotspot {
+        /* Let OSD size it via addOverlay */
+        position: absolute;
+        pointer-events: auto;
+        cursor: pointer;
+        z-index: 10000;
+
+        /* Glassy gradient */
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 255, 255, 0.6) 0%,
+          rgba(255, 255, 255, 0.2) 60%,
+          rgba(255, 255, 255, 0.05) 90%
+        );
+
+        /* Border and glow */
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow:
+          inset 0 0 8px rgba(255, 255, 255, 0.7),
+          /* inner light */ 0 0 10px rgba(255, 255, 255, 0.4);
+        /* outer glow */
+
+        /* Fully round */
+        border-radius: 50%;
+
+        /* Smooth hover */
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .region-hotspot:hover {
+        transform: scale(1.1);
+        box-shadow:
+          inset 0 0 10px rgba(255, 255, 255, 0.9),
+          0 0 14px rgba(255, 255, 255, 0.6);
       }
 
       #controls {
         position: absolute;
         bottom: 1rem;
         right: 1rem;
-        z-index: 10;
+        z-index: 2000;
       }
 
       #controls button {
@@ -41,149 +93,122 @@
       #controls button.hidden {
         display: none;
       }
+
+      #saveHome {
+        /* Size & positioning */
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.6em 1.2em;
+        font-size: 0.9rem;
+
+        /* Frosted-glass look */
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(6px);
+
+        /* Subtle border & glow */
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow:
+          inset 0 0 6px rgba(255, 255, 255, 0.5),
+          0 0 8px rgba(255, 255, 255, 0.2);
+
+        /* Rounded pill shape */
+        border-radius: 24px;
+
+        /* Text styling */
+        color: white;
+        cursor: pointer;
+        transition:
+          background 0.2s ease,
+          box-shadow 0.2s ease,
+          transform 0.2s ease;
+
+        z-index: 2000;
+      }
+
+      #saveHome:hover {
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow:
+          inset 0 0 8px rgba(255, 255, 255, 0.7),
+          0 0 12px rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+
+      #backMain {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        width: 52px;
+        height: 52px;
+        padding: 8px;
+        /* room around the arrow */
+
+        background: rgba(0, 0, 0, 0.6);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease;
+        z-index: 2000;
+      }
+
+      #backMain:hover {
+        background: rgba(0, 0, 0, 0.85);
+        transform: scale(1.05);
+      }
+
+      #backMain.hidden {
+        display: none;
+      }
+
+      /* SVG sizing */
+      .back-arrow {
+        width: 28px;
+        height: 28px;
+      }
     </style>
   </head>
 
   <body>
     <div id="viewer"></div>
+    <button id="backMain" class="hidden" title="Back to main view">
+      <svg class="back-arrow" viewBox="0 0 24 24" aria-hidden="true">
+        <defs>
+          <!-- Glassy gradient for the arrow -->
+          <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.8)" />
+            <stop offset="100%" stop-color="rgba(255,255,255,0.4)" />
+          </linearGradient>
+          <!-- Soft glow filter -->
+          <filter id="arrowGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <!-- Left-pointing arrow path -->
+        <path
+          d="M15 6l-6 6 6 6"
+          fill="none"
+          stroke="url(#arrowGrad)"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          filter="url(#arrowGlow)"
+        />
+      </svg>
+    </button>
     <div id="controls">
       <button id="saveHome">Set Home View</button>
     </div>
-
-    <div
-      id="debug"
-      style="
-        position: absolute;
-        bottom: 1rem;
-        left: 1rem;
-        padding: 0.5em;
-        background: rgba(0, 0, 0, 0.6);
-        color: white;
-        font-family: monospace;
-        z-index: 100;
-      "
-    >
-      debug info
-    </div>
-
-    <script>
-      const STORAGE_KEY = "euclid_home_view";
-
-      const viewer = OpenSeadragon({
-        element: "viewer",
-        prefixUrl:
-          "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
-        tileSources: "euclid.dzi",
-        showNavigator: true,
-
-        // ← Add these overrides:
-        maxZoomPixelRatio: 10, // allow zooming in up to 10x
-        minZoomImageRatio: 0.7, // allow zooming out to 70% of image size
-        defaultZoomLevel: 1, // start fully zoomed out (1:1 to fit width)
-
-        // make sure your mouse/touch gestures still zoom:
-        gestureSettingsMouse: {
-          scrollToZoom: true,
-          clickToZoom: false,
-          dblClickToZoom: true,
-          pinchToZoom: true,
-        },
-      });
-
-      // Hides the save button
-      function hideSaveButton() {
-        document.getElementById("saveHome").classList.add("hidden");
-      }
-
-      // 2. On open, apply saved viewport if present
-      viewer.addHandler("open", () => {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-        if (saved && saved.x !== undefined) {
-          const rect = new OpenSeadragon.Rect(
-            saved.x,
-            saved.y,
-            saved.width,
-            saved.height,
-          );
-          viewer.viewport.fitBounds(rect, true);
-          startIdleReset();
-          hideSaveButton();
-        }
-      });
-
-      // 3. “Set Home View” button: grab current bounds → save
-      document.getElementById("saveHome").addEventListener("click", () => {
-        const bounds = viewer.viewport.getBounds(); // in image coordinates
-        const toSave = {
-          x: bounds.x,
-          y: bounds.y,
-          width: bounds.width,
-          height: bounds.height,
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
-        alert("Home view saved!");
-        startIdleReset();
-        hideSaveButton();
-      });
-
-      // 4. Idle detector: after 30 s no interaction, snap back to home
-      function startIdleReset() {
-        const LIMIT = 30_000; // ms
-        let timer;
-        const reset = () => {
-          clearTimeout(timer);
-          timer = setTimeout(() => {
-            const saved = JSON.parse(
-              localStorage.getItem(STORAGE_KEY) || "null",
-            );
-            if (saved) {
-              const rect = new OpenSeadragon.Rect(
-                saved.x,
-                saved.y,
-                saved.width,
-                saved.height,
-              );
-              viewer.viewport.fitBounds(rect, true);
-            }
-          }, LIMIT);
-        };
-        // interaction events
-        [
-          "viewport-change",
-          "canvas-drag",
-          "canvas-click",
-          "canvas-scroll",
-        ].forEach((evt) => viewer.addHandler(evt, reset));
-        reset();
-      }
-
-      // grab the debug panel
-      const debug = document.getElementById("debug");
-
-      // helper to update the panel
-      function updateDebugInfo() {
-        const item = viewer.world.getItemAt(0);
-        const bounds = viewer.viewport.getBounds(); // in viewport coords
-        const imgRect = item.viewportToImageRectangle(bounds); // in image pixels
-        const zoom = viewer.viewport.getZoom(true).toFixed(2); // true = image‐pixels per viewport unit
-        debug.textContent = [
-          `zoom: ${zoom} px/unit`,
-          `view size: ${Math.round(imgRect.width)}×${Math.round(
-            imgRect.height,
-          )} px`,
-          `view origin: ${Math.round(imgRect.x)},${Math.round(imgRect.y)}`,
-        ].join("  |  ");
-      }
-
-      // wire it up on all pan/zoom events
-      ["viewport-change", "canvas-scroll", "canvas-drag", "zoom"].forEach(
-        (evt) => {
-          viewer.addHandler(evt, updateDebugInfo);
-        },
-      );
-
-      // also call once on open
-      viewer.addHandler("open", updateDebugInfo);
-    </script>
+    <script src="viewer.js" defer></script>
   </body>
 </html>
