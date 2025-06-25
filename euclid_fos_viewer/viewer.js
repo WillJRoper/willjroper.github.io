@@ -183,16 +183,8 @@ function switchTo(key) {
     history.push(currentKey);
     viewHistory.push(viewer.viewport.getBounds());
 
-    // If there’s an existing viewer, tear it down
-    if (viewer) {
-      viewer.destroy(); // removes canvas, handlers, overlays
-    }
-
     // Reset the state
     currentKey = key;
-
-    // Re-init OpenSeadragon viewer & handlers
-    initViewer();
 
     // Now open the new DZI
     const file = key === MAIN_KEY ? "euclid.dzi" : `${key}.dzi`;
@@ -249,13 +241,7 @@ function returnToHome() {
 
   // Wait for the CSS fade (100ms)
   setTimeout(() => {
-    // Destroy the existing viewer
-    if (viewer) {
-      viewer.destroy();
-    }
-
     currentKey = MAIN_KEY;
-    initViewer(); // installs the global `open` handler
 
     const url = `${MAIN_KEY}/euclid.dzi`;
     viewer.open(url);
@@ -300,11 +286,6 @@ function returnTo() {
 
   // Wait for the CSS fade (100ms)
   setTimeout(() => {
-    // If there’s an existing viewer, tear it down
-    if (viewer) {
-      viewer.destroy(); // removes canvas, handlers, overlays
-    }
-
     // Reset the state
     let lastView;
     if (history.length > 0) {
@@ -314,9 +295,6 @@ function returnTo() {
       currentKey = MAIN_KEY;
       lastView = null;
     }
-
-    // Re-init OpenSeadragon viewer & handlers
-    initViewer();
 
     // Now open the new DZI
     const file = currentKey === MAIN_KEY ? "euclid.dzi" : `${currentKey}.dzi`;
