@@ -10,6 +10,7 @@ let hotspotTrackers = [];
 let regions;
 let history = [];
 let viewHistory = [];
+let defaultZoom = 0.5;
 
 /** Initialize the OpenSeadragon viewer
  *
@@ -22,7 +23,7 @@ function initViewer() {
       "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
 
     // Start 4× zoom when the image opens:
-    defaultZoomLevel: 0.5,
+    defaultZoomLevel: defaultZoom,
 
     // Never allow zooming in past 4×:
     maxZoomPixelRatio: 4,
@@ -87,6 +88,15 @@ async function loadRegions() {
   }
 }
 
+/** Set the default zoom level for the viewer.
+ *
+ * This is a simple helper to update the default zoom level for each
+ * new image opened in the viewer.
+ */
+function setDefaultZoom(zoom) {
+  defaultZoom = zoom;
+}
+
 /** Draw hotspots for a given key.
  *
  * This function is called whenever a new image is opened in the viewer
@@ -116,7 +126,10 @@ function renderRegions(key) {
     // 6) Attach the MouseTracker for clicks
     const tracker = new OpenSeadragon.MouseTracker({
       element: elt,
-      clickHandler: () => switchTo(def.target),
+      clickHandler: () => {
+        setDefaultZoom(def.default_zoom || defaultZoom);
+        switchTo(def.target);
+      },
     });
     tracker.setTracking(true);
     hotspotTrackers.push(tracker);
@@ -191,6 +204,21 @@ function startIdleTimer() {
 function returnToHome() {
   clearTimeout(idleTimer);
 
+  // Get the home view from localStorage
+  const homeView = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+
+  // Nothing to do if we are already at home
+  const currentBounds = viewer.viewport.getBounds();
+  if (
+    homeView &&
+    currentBounds.x === homeView.x &&
+    currentBounds.y === homeView.y &&
+    currentBounds.width === homeView.width &&
+    currentBounds.height === homeView.height
+  ) {
+    return;
+  }
+
   if (viewer) {
     viewer.destroy();
   }
@@ -207,7 +235,6 @@ function returnToHome() {
   // Only once, when that image is ready:
   viewer.addOnceHandler("open", () => {
     // Now that DZI is loaded, we can fit to the saved bounds
-    const homeView = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
     if (homeView) {
       viewer.viewport.fitBounds(
         new OpenSeadragon.Rect(
