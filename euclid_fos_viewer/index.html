@@ -1,214 +1,199 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Euclid FOS Viewer</title>
 
-    <!-- OpenSeadragon & js-yaml -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/openseadragon.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"
-      crossorigin="anonymous"
-    ></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Euclid FOS Viewer</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/nerd-fonts/2.1.0/css/hack.css"
-    />
+  <!-- OpenSeadragon & js-yaml -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/openseadragon.min.js"
+    crossorigin="anonymous"></script>
 
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-      }
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nerd-fonts/2.1.0/css/hack.css" />
 
-      body,
-      code,
-      pre {
-        font-family: "Hack Nerd Font", monospace;
-      }
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
 
-      #viewer {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background: #000;
-      }
+    body,
+    code,
+    pre {
+      font-family: "Hack Nerd Font", monospace;
+    }
 
-      .region-hotspot {
-        /* Let OSD size it via addOverlay */
-        position: absolute;
-        pointer-events: auto;
-        cursor: pointer;
-        z-index: 10000;
+    #viewer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
 
-        /* Glassy gradient */
-        background: radial-gradient(
-          circle at 30% 30%,
+    .region-hotspot {
+      /* Let OSD size it via addOverlay */
+      position: absolute;
+      pointer-events: auto;
+      cursor: pointer;
+      z-index: 10000;
+
+      /* Glassy gradient */
+      background: radial-gradient(circle at 30% 30%,
           rgba(255, 255, 255, 0.6) 0%,
           rgba(255, 255, 255, 0.2) 60%,
-          rgba(255, 255, 255, 0.05) 90%
-        );
+          rgba(255, 255, 255, 0.05) 90%);
 
-        /* Border and glow */
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        box-shadow:
-          inset 0 0 8px rgba(255, 255, 255, 0.7),
-          /* inner light */ 0 0 10px rgba(255, 255, 255, 0.4);
-        /* outer glow */
+      /* Border and glow */
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.7),
+        /* inner light */
+        0 0 10px rgba(255, 255, 255, 0.4);
+      /* outer glow */
 
-        /* Fully round */
-        border-radius: 50%;
+      /* Fully round */
+      border-radius: 50%;
 
-        /* Smooth hover */
-        transition:
-          transform 0.2s ease,
-          box-shadow 0.2s ease;
-      }
+      /* Smooth hover */
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
 
-      .region-hotspot:hover {
-        transform: scale(1.1);
-        box-shadow:
-          inset 0 0 10px rgba(255, 255, 255, 0.9),
-          0 0 14px rgba(255, 255, 255, 0.6);
-      }
+    .region-hotspot:hover {
+      transform: scale(1.1);
+      box-shadow:
+        inset 0 0 10px rgba(255, 255, 255, 0.9),
+        0 0 14px rgba(255, 255, 255, 0.6);
+    }
 
-      #controls {
-        position: absolute;
-        bottom: 1rem;
-        right: 1rem;
-        z-index: 2000;
-      }
+    #controls {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 2000;
+    }
 
-      #controls button {
-        padding: 0.5em 1em;
-        font-size: 1rem;
-      }
+    #controls button {
+      padding: 0.5em 1em;
+      font-size: 1rem;
+    }
 
-      #controls button.hidden {
-        display: none;
-      }
+    #controls button.hidden {
+      display: none;
+    }
 
-      #saveHome {
-        /* Size & positioning */
-        position: absolute;
-        bottom: 1rem;
-        right: 1rem;
-        padding: 0.6em 1.2em;
-        font-size: 0.9rem;
+    #saveHome {
+      /* Size & positioning */
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      padding: 0.6em 1.2em;
+      font-size: 0.9rem;
 
-        /* Frosted-glass look */
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(6px);
+      /* Frosted-glass look */
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
 
-        /* Subtle border & glow */
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow:
-          inset 0 0 6px rgba(255, 255, 255, 0.5),
-          0 0 8px rgba(255, 255, 255, 0.2);
+      /* Subtle border & glow */
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow:
+        inset 0 0 6px rgba(255, 255, 255, 0.5),
+        0 0 8px rgba(255, 255, 255, 0.2);
 
-        /* Rounded pill shape */
-        border-radius: 24px;
+      /* Rounded pill shape */
+      border-radius: 24px;
 
-        /* Text styling */
-        color: white;
-        cursor: pointer;
-        transition:
-          background 0.2s ease,
-          box-shadow 0.2s ease,
-          transform 0.2s ease;
+      /* Text styling */
+      color: white;
+      cursor: pointer;
+      transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 
-        z-index: 2000;
-      }
+      z-index: 2000;
+    }
 
-      #saveHome:hover {
-        background: rgba(255, 255, 255, 0.25);
-        box-shadow:
-          inset 0 0 8px rgba(255, 255, 255, 0.7),
-          0 0 12px rgba(255, 255, 255, 0.3);
-        transform: scale(1.05);
-      }
+    #saveHome:hover {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.7),
+        0 0 12px rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
 
-      #backMain {
-        position: absolute;
-        bottom: 1rem;
-        left: 1rem;
-        width: 52px;
-        height: 52px;
-        padding: 8px;
-        /* room around the arrow */
+    #backMain {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      width: 52px;
+      height: 52px;
+      padding: 8px;
+      /* room around the arrow */
 
-        background: rgba(0, 0, 0, 0.6);
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-        transition:
-          background 0.2s ease,
-          transform 0.2s ease;
-        z-index: 2000;
-      }
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+      z-index: 2000;
+    }
 
-      #backMain:hover {
-        background: rgba(0, 0, 0, 0.85);
-        transform: scale(1.05);
-      }
+    #backMain:hover {
+      background: rgba(0, 0, 0, 0.85);
+      transform: scale(1.05);
+    }
 
-      #backMain.hidden {
-        display: none;
-      }
+    #backMain.hidden {
+      display: none;
+    }
 
-      /* SVG sizing */
-      .back-arrow {
-        width: 28px;
-        height: 28px;
-      }
-    </style>
-  </head>
+    /* SVG sizing */
+    .back-arrow {
+      width: 28px;
+      height: 28px;
+    }
+  </style>
+</head>
 
-  <body>
-    <div id="viewer"></div>
-    <button id="backMain" class="hidden" title="Back to main view">
-      <svg class="back-arrow" viewBox="0 0 24 24" aria-hidden="true">
-        <defs>
-          <!-- Glassy gradient for the arrow -->
-          <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgba(255,255,255,0.8)" />
-            <stop offset="100%" stop-color="rgba(255,255,255,0.4)" />
-          </linearGradient>
-          <!-- Soft glow filter -->
-          <filter id="arrowGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <!-- Left-pointing arrow path -->
-        <path
-          d="M15 6l-6 6 6 6"
-          fill="none"
-          stroke="url(#arrowGrad)"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          filter="url(#arrowGlow)"
-        />
-      </svg>
-    </button>
-    <div id="controls">
-      <button id="saveHome">Set Home View</button>
-    </div>
-    <script src="viewer.js" defer></script>
-  </body>
+<body>
+  <div id="viewer"></div>
+  <button id="backMain" class="hidden" title="Back to main view">
+    <svg class="back-arrow" viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <!-- Glassy gradient for the arrow -->
+        <linearGradient id="arrowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.8)" />
+          <stop offset="100%" stop-color="rgba(255,255,255,0.4)" />
+        </linearGradient>
+        <!-- Soft glow filter -->
+        <filter id="arrowGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- Left-pointing arrow path -->
+      <path d="M15 6l-6 6 6 6" fill="none" stroke="url(#arrowGrad)" stroke-width="2.5" stroke-linecap="round"
+        stroke-linejoin="round" filter="url(#arrowGlow)" />
+    </svg>
+  </button>
+  <div id="controls">
+    <button id="saveHome">Set Home View</button>
+  </div>
+  <script type="module" src="viewer.js" defer></script>
+</body>
+
 </html>

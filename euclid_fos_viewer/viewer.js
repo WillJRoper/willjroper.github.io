@@ -1,11 +1,13 @@
+import Regions from "./regions.js";
+
 // ---- Configuration & State ----
 const STORAGE_KEY = "euclid_home_view";
 const MAIN_KEY = "main";
-let regions = {};
 let currentKey = MAIN_KEY;
 let idleTimer;
 let viewer;
 let hotspotTrackers = [];
+let regions;
 
 /** Initialize the OpenSeadragon viewer
  *
@@ -75,16 +77,12 @@ function clearHotspots() {
 }
 
 /** Load regions.yaml and kick things off. */
-function loadRegions() {
-  fetch("regions.yaml")
-    .then((res) => res.text())
-    .then((txt) => {
-      regions = jsyaml.load(txt) || {};
-      console.log("Regions loaded:", regions);
-
-      viewer.open(`${MAIN_KEY}/euclid.dzi`);
-    })
-    .catch((err) => console.error("YAML load failed:", err));
+async function loadRegions() {
+  try {
+    regions = await Regions.load("regions.yaml");
+  } catch (err) {
+    console.error("Failed to load regions:", err);
+  }
 }
 
 /** Draw hotspots for a given key.
@@ -116,11 +114,6 @@ function renderRegions(key) {
     tracker.setTracking(true);
     hotspotTrackers.push(tracker);
   });
-}
-
-/** Handler when a hotspot is clicked. */
-function onHotspotClick(def) {
-  switchTo(def.target);
 }
 
 /** Show/hide the back-arrow based on currentKey. */
@@ -237,11 +230,12 @@ function initControls() {
 }
 
 /** Kick everything off */
-function init() {
+async function init() {
   localStorage.removeItem(STORAGE_KEY);
   initViewer();
   initControls();
-  loadRegions();
+  await loadRegions();
+  viewer.open(`${MAIN_KEY}/euclid.dzi`);
 }
 
 // Wait for the HTML to be parsed before we look up any elements
