@@ -45,6 +45,7 @@ function initViewer() {
 
   // Add the handlers
   viewer.addHandler('open', () => {
+      clearHotspots();
       renderRegions(currentKey);   // draw hotspots
       toggleBackButton();          // show/hide back-arrow
   });
@@ -53,9 +54,14 @@ function initViewer() {
 
 /** Clear all hotspots and trackers */
 function clearHotspots() {
+  console.log('Clearing hotspots');
   viewer.clearOverlays();
-  hotspotTrackers.forEach(tr => tr.destroy());
+  hotspotTrackers.forEach(tr => {
+    tr.setTracking(false);
+    tr.destroy()
+  });
   hotspotTrackers = [];
+  console.log('Hotspots cleared ->', hotspotTrackers.length);
 }
 
 /** Load regions.yaml and kick things off */
@@ -77,8 +83,6 @@ function openMainImage() {
 
 /** Draw hotspots for a given key */
 function renderRegions(key) {
-  clearHotspots();
-
   (regions[key] || []).forEach(def => {
     // 2) Find the region center in viewport coordinates
     const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
@@ -88,8 +92,8 @@ function renderRegions(key) {
     const vpRect = new OpenSeadragon.Rect(
       vpCenter.x,
       vpCenter.y,
-      0.01,
-      0.01
+      0.005,
+      0.005
     );
 
     console.log('Creating hotspot for', def.name, 'at', vpRect);
@@ -109,6 +113,9 @@ function renderRegions(key) {
     tracker.setTracking(true);
     hotspotTrackers.push(tracker);
   });
+
+  console.log('Hotspots rendered for', key, '->', regions[key]); 
+  console.log('Total hotspots:', hotspotTrackers.length);
 }
 
 /** Handler when a hotspot is clicked */
@@ -127,35 +134,25 @@ function toggleBackButton() {
   }
 }
 
-/** Switch the viewer to another DZI */
+/** Switch the viewer to another DZI without killing gesture handlers */
 function switchTo(key) {
-
-  /** Restart the idle timer */
+  // Restart the idle timer
   clearTimeout(idleTimer);
 
-  /** Set the current key */
+  // Update the current key
   currentKey = key;
 
-  /* Handle the stupid naming convention I used for the main image while 
-   * Getting the file we need to open. */
+  // Determine filename
   const file = key === MAIN_KEY ? 'euclid.dzi' : `${key}.dzi`;
-
   console.log('switchTo', key, file);
 
-  /** Open the new DZI */
-  viewer.open(`${key}/${file}`);
-}
+  // 1) Remove only the old tile sources (preserves canvas & gestures)
+  console.log('Removing old tiled images');
+  viewer.world.removeAll();
 
-/** Restore saved home view if any */
-function maybeRestoreHome(key) {
-  if (key !== MAIN_KEY) return;
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-  if (saved) {
-    viewer.viewport.fitBounds(
-      new OpenSeadragon.Rect(saved.x, saved.y, saved.width, saved.height),
-      true
-    );
-  }
+  // 3) Open the new DZI (triggers your single “open” handler)
+  console.log('Opening new DZI:', `${key}/${file}`);
+  viewer.open(`${key}/${file}`);
 }
 
 /** Schedule auto-return to MAIN_KEY after 30s */
