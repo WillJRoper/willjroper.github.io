@@ -11,6 +11,7 @@ let regions;
 let history = [];
 let viewHistory = [];
 let defaultZoom = 0.5;
+let zoomReturnArmed = false;
 
 /** Initialize the OpenSeadragon viewer
  *
@@ -59,6 +60,7 @@ function initViewer() {
     renderRegions(currentKey); // draw hotspots
     toggleBackButton(); // show/hide back-arrow
     document.querySelector("#viewer .openseadragon-canvas").style.opacity = 1;
+    zoomReturnArmed = true;
   });
 
   // Watch zoom changes to catch when we should go back
@@ -66,13 +68,14 @@ function initViewer() {
     // Get the viewport and zoom level
     const vp = viewer.viewport;
     const minZ = vp.getMinZoom();
-    const curZ = vp.getZoom();
+    const curZ = evt.zoom;
 
     // When user zooms out to (or below) that minimum, go back
-    if (curZ <= minZ + 1e-6) {
+    if (zoomReturnArmed && curZ <= minZ + 1e-6) {
+      zoomReturnArmed = false;
       // guard so we only trigger once per “reaching min”
       if (currentKey !== MAIN_KEY) {
-        returnTo();
+        zoomReturnTo();
       }
     }
   });
@@ -319,6 +322,63 @@ function returnTo() {
     // Restart the idle timer
     startIdleTimer();
   }, 100);
+}
+
+/** Switch to the last key in the history via zooming out.
+ *
+ * This function handles the logic of switching images, it will destroy
+ * the existing viewer to remove an listeners and overlays,
+ * then re-initialize the viewer with the new image.
+ */
+function zoomReturnTo() {
+  clearTimeout(idleTimer);
+
+  const osdCanvas = document.querySelector("#viewer .openseadragon-canvas");
+  osdCanvas.style.opacity = 0;
+
+  // 1) Pop history now, and capture leavingKey here
+  let lastView = null;
+  let leavingKey = currentKey;
+  if (history.length) {
+    currentKey = history.pop();
+    lastView = viewHistory.pop();
+  } else {
+    currentKey = MAIN_KEY;
+  }
+
+  // 2) Open the new DZI
+  const url = `${currentKey}/${currentKey === MAIN_KEY ? "euclid.dzi" : currentKey + ".dzi"}`;
+  viewer.open(url);
+
+  // 3) Wait for the new image to load before doing any viewport work
+  viewer.addOnceHandler(
+    "open",
+    () => {
+      // fade the canvas back in
+      osdCanvas.style.opacity = 1;
+
+      // find the region that pointed to our previous key
+      const leavingRegion = regions[currentKey]?.find(
+        (r) => r.target === leavingKey,
+      );
+
+      if (leavingRegion) {
+        // compute its viewport-point
+        const imgPt = new OpenSeadragon.Point(
+          leavingRegion.x_px,
+          leavingRegion.y_px,
+        );
+        const focusPt = viewer.viewport.imageToViewportCoordinates(imgPt);
+        viewer.viewport.zoomTo(1e4, focusPt, true); // huge number to guarantee max
+      } else if (lastView) {
+        // otherwise restore the saved bounds
+        viewer.viewport.fitBounds(lastView, true);
+      }
+
+      startIdleTimer();
+    },
+    { once: true },
+  );
 }
 
 /** Save current viewport as “home”. */
