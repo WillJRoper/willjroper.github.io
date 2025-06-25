@@ -9,6 +9,7 @@ let viewer;
 let hotspotTrackers = [];
 let regions;
 let history = [];
+let viewHistory = [];
 
 /** Initialize the OpenSeadragon viewer
  *
@@ -142,14 +143,13 @@ function switchTo(key) {
   // Abort any pending “return to main”
   clearTimeout(idleTimer);
 
+  // Record where we were in the history
+  history.push(currentKey);
+  viewHistory.push(viewer.viewport.getBounds());
+
   // If there’s an existing viewer, tear it down
   if (viewer) {
     viewer.destroy(); // removes canvas, handlers, overlays
-  }
-
-  // Record where we are going in the history
-  if (currentKey !== MAIN_KEY) {
-    history.push(currentKey);
   }
 
   // Reset the state
@@ -241,10 +241,13 @@ function returnTo() {
   }
 
   // Reset the state
+  let lastView;
   if (history.length > 0) {
     currentKey = history.pop();
+    lastView = viewHistory.pop();
   } else {
     currentKey = MAIN_KEY;
+    lastView = null;
   }
 
   // Re-init OpenSeadragon viewer & handlers
@@ -253,6 +256,21 @@ function returnTo() {
   // Now open the new DZI
   const file = currentKey === MAIN_KEY ? "euclid.dzi" : `${currentKey}.dzi`;
   viewer.open(`${currentKey}/${file}`);
+
+  // Update the viewport to the last view if available
+  if (lastView) {
+    viewer.addOnceHandler("open", () => {
+      viewer.viewport.fitBounds(
+        new OpenSeadragon.Rect(
+          lastView.x,
+          lastView.y,
+          lastView.width,
+          lastView.height,
+        ),
+        true, // animate
+      );
+    });
+  }
 
   // Restart the idle timer
   startIdleTimer();
