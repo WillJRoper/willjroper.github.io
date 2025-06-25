@@ -29,7 +29,7 @@ function initViewer() {
     maxZoomPixelRatio: 4,
 
     // (optional) prevent zooming all the way out too far:
-    minZoomImageRatio: 0.5,
+    minZoomImageRatio: 0.45,
 
     // Show the navigator panel
     showNavigator: true,
@@ -57,6 +57,23 @@ function initViewer() {
     clearHotspots();
     renderRegions(currentKey); // draw hotspots
     toggleBackButton(); // show/hide back-arrow
+    document.getElementById("viewer").style.opacity = 1; // fade back in
+  });
+
+  // Watch zoom changes to catch when we should go back
+  viewer.addHandler("zoom", (evt) => {
+    // Get the viewport and zoom level
+    const vp = viewer.viewport;
+    const minZ = vp.getMinZoom();
+    const curZ = vp.getZoom();
+
+    // When user zooms out to (or below) that minimum, go back
+    if (curZ <= minZ + 1e-6) {
+      // guard so we only trigger once per “reaching min”
+      if (currentKey !== MAIN_KEY) {
+        returnTo();
+      }
+    }
   });
 
   // Make sure the idle timer is reset on any interaction
@@ -156,27 +173,34 @@ function switchTo(key) {
   // Abort any pending “return to main”
   clearTimeout(idleTimer);
 
-  // Record where we were in the history
-  history.push(currentKey);
-  viewHistory.push(viewer.viewport.getBounds());
+  // Fade out
+  const viewerEl = document.getElementById("viewer");
+  viewerEl.style.opacity = 0;
 
-  // If there’s an existing viewer, tear it down
-  if (viewer) {
-    viewer.destroy(); // removes canvas, handlers, overlays
-  }
+  // Wait for the CSS fade (100ms)
+  setTimeout(() => {
+    // Record where we were in the history
+    history.push(currentKey);
+    viewHistory.push(viewer.viewport.getBounds());
 
-  // Reset the state
-  currentKey = key;
+    // If there’s an existing viewer, tear it down
+    if (viewer) {
+      viewer.destroy(); // removes canvas, handlers, overlays
+    }
 
-  // Re-init OpenSeadragon viewer & handlers
-  initViewer();
+    // Reset the state
+    currentKey = key;
 
-  // Now open the new DZI
-  const file = key === MAIN_KEY ? "euclid.dzi" : `${key}.dzi`;
-  viewer.open(`${key}/${file}`);
+    // Re-init OpenSeadragon viewer & handlers
+    initViewer();
 
-  // Restart the idle timer
-  startIdleTimer();
+    // Now open the new DZI
+    const file = key === MAIN_KEY ? "euclid.dzi" : `${key}.dzi`;
+    viewer.open(`${key}/${file}`);
+
+    // Restart the idle timer
+    startIdleTimer();
+  }, 100);
 }
 
 /** Start the idle timer to return to home after 30s of inactivity.
@@ -219,37 +243,45 @@ function returnToHome() {
     return;
   }
 
-  if (viewer) {
-    viewer.destroy();
-  }
+  // Fade out
+  const viewerEl = document.getElementById("viewer");
+  viewerEl.style.opacity = 0;
 
-  currentKey = MAIN_KEY;
-  initViewer(); // installs the global `open` handler
-
-  const url = `${MAIN_KEY}/euclid.dzi`;
-  viewer.open(url);
-
-  // Clear out the history since we are returning to the main image
-  history = [];
-
-  // Only once, when that image is ready:
-  viewer.addOnceHandler("open", () => {
-    // Now that DZI is loaded, we can fit to the saved bounds
-    if (homeView) {
-      viewer.viewport.fitBounds(
-        new OpenSeadragon.Rect(
-          homeView.x,
-          homeView.y,
-          homeView.width,
-          homeView.height,
-        ),
-        true, // animate
-      );
+  // Wait for the CSS fade (100ms)
+  setTimeout(() => {
+    // Destroy the existing viewer
+    if (viewer) {
+      viewer.destroy();
     }
-  });
 
-  // Restart the idle timer
-  startIdleTimer();
+    currentKey = MAIN_KEY;
+    initViewer(); // installs the global `open` handler
+
+    const url = `${MAIN_KEY}/euclid.dzi`;
+    viewer.open(url);
+
+    // Clear out the history since we are returning to the main image
+    history = [];
+
+    // Only once, when that image is ready:
+    viewer.addOnceHandler("open", () => {
+      // Now that DZI is loaded, we can fit to the saved bounds
+      if (homeView) {
+        viewer.viewport.fitBounds(
+          new OpenSeadragon.Rect(
+            homeView.x,
+            homeView.y,
+            homeView.width,
+            homeView.height,
+          ),
+          true, // animate
+        );
+      }
+    });
+
+    // Restart the idle timer
+    startIdleTimer();
+  }, 100);
 }
 
 /** Switch to the last key in the history or the main image.
@@ -262,45 +294,52 @@ function returnTo() {
   // Abort any pending “return to main”
   clearTimeout(idleTimer);
 
-  // If there’s an existing viewer, tear it down
-  if (viewer) {
-    viewer.destroy(); // removes canvas, handlers, overlays
-  }
+  // Fade out
+  const viewerEl = document.getElementById("viewer");
+  viewerEl.style.opacity = 0;
 
-  // Reset the state
-  let lastView;
-  if (history.length > 0) {
-    currentKey = history.pop();
-    lastView = viewHistory.pop();
-  } else {
-    currentKey = MAIN_KEY;
-    lastView = null;
-  }
+  // Wait for the CSS fade (100ms)
+  setTimeout(() => {
+    // If there’s an existing viewer, tear it down
+    if (viewer) {
+      viewer.destroy(); // removes canvas, handlers, overlays
+    }
 
-  // Re-init OpenSeadragon viewer & handlers
-  initViewer();
+    // Reset the state
+    let lastView;
+    if (history.length > 0) {
+      currentKey = history.pop();
+      lastView = viewHistory.pop();
+    } else {
+      currentKey = MAIN_KEY;
+      lastView = null;
+    }
 
-  // Now open the new DZI
-  const file = currentKey === MAIN_KEY ? "euclid.dzi" : `${currentKey}.dzi`;
-  viewer.open(`${currentKey}/${file}`);
+    // Re-init OpenSeadragon viewer & handlers
+    initViewer();
 
-  // Update the viewport to the last view if available
-  if (lastView) {
-    viewer.addOnceHandler("open", () => {
-      viewer.viewport.fitBounds(
-        new OpenSeadragon.Rect(
-          lastView.x,
-          lastView.y,
-          lastView.width,
-          lastView.height,
-        ),
-        true, // animate
-      );
-    });
-  }
+    // Now open the new DZI
+    const file = currentKey === MAIN_KEY ? "euclid.dzi" : `${currentKey}.dzi`;
+    viewer.open(`${currentKey}/${file}`);
 
-  // Restart the idle timer
-  startIdleTimer();
+    // Update the viewport to the last view if available
+    if (lastView) {
+      viewer.addOnceHandler("open", () => {
+        viewer.viewport.fitBounds(
+          new OpenSeadragon.Rect(
+            lastView.x,
+            lastView.y,
+            lastView.width,
+            lastView.height,
+          ),
+          true, // animate
+        );
+      });
+    }
+
+    // Restart the idle timer
+    startIdleTimer();
+  }, 100);
 }
 
 /** Save current viewport as “home”. */
