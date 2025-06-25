@@ -8,6 +8,7 @@ let idleTimer;
 let viewer;
 let hotspotTrackers = [];
 let regions;
+let history = [];
 
 /** Initialize the OpenSeadragon viewer
  *
@@ -141,6 +142,11 @@ function switchTo(key) {
     viewer.destroy(); // removes canvas, handlers, overlays
   }
 
+  // Record where we are going in the history
+  if (currentKey !== MAIN_KEY) {
+    history.push(currentKey);
+  }
+
   // Reset the state
   currentKey = key;
 
@@ -149,7 +155,6 @@ function switchTo(key) {
 
   // Now open the new DZI
   const file = key === MAIN_KEY ? "euclid.dzi" : `${key}.dzi`;
-  console.log("Opening new viewer for", key, file);
   viewer.open(`${key}/${file}`);
 
   // Restart the idle timer
@@ -191,6 +196,9 @@ function returnToHome() {
   const url = `${MAIN_KEY}/euclid.dzi`;
   viewer.open(url);
 
+  // Clear out the history since we are returning to the main image
+  history = [];
+
   // Only once, when that image is ready:
   viewer.addOnceHandler("open", () => {
     // Now that DZI is loaded, we can fit to the saved bounds
@@ -212,11 +220,43 @@ function returnToHome() {
   startIdleTimer();
 }
 
+/** Switch to the last key in the history or the main image.
+ *
+ * This function handles the logic of switching images, it will destroy
+ * the existing viewer to remove an listeners and overlays,
+ * then re-initialize the viewer with the new image.
+ */
+function returnTo() {
+  // Abort any pending “return to main”
+  clearTimeout(idleTimer);
+
+  // If there’s an existing viewer, tear it down
+  if (viewer) {
+    viewer.destroy(); // removes canvas, handlers, overlays
+  }
+
+  // Reset the state
+  if (history.length > 0) {
+    currentKey = history.pop();
+  } else {
+    currentKey = MAIN_KEY;
+  }
+
+  // Re-init OpenSeadragon viewer & handlers
+  initViewer();
+
+  // Now open the new DZI
+  const file = currentKey === MAIN_KEY ? "euclid.dzi" : `${currentKey}.dzi`;
+  viewer.open(`${currentKey}/${file}`);
+
+  // Restart the idle timer
+  startIdleTimer();
+}
+
 /** Save current viewport as “home”. */
 function saveHomeView() {
   const b = viewer.viewport.getBounds();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(b));
-  console.log("Home view saved", b);
   document.getElementById("saveHome").classList.add("hidden");
   startIdleTimer();
 }
@@ -226,7 +266,7 @@ function initControls() {
   document.getElementById("saveHome").addEventListener("click", saveHomeView);
   document
     .getElementById("backMain")
-    .addEventListener("click", () => switchTo(MAIN_KEY));
+    .addEventListener("click", () => returnTo());
 }
 
 /** Kick everything off */

@@ -1,9 +1,11 @@
 main:
   name: "main"
   dzi: "main/euclid.dzi"
-  ra: "06:10:05.23"
-  dec: "-33:31:12.91"
-  area: 132 # total sky coverage in square degrees
+  ra: "06:08:54.5"
+  dec: "-39:47:44.8"
+  fovx: 31.9
+  fovy: 10.1
+  north: 285.6
 
 others:
   - name: "distant_spiral"
