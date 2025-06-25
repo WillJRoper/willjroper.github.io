@@ -98,7 +98,12 @@ function renderRegions(key) {
     const vpCenter = viewer.viewport.imageToViewportCoordinates(imgPt);
 
     // 3) Build a small viewport‐space rectangle centered on that point
-    const vpRect = new OpenSeadragon.Rect(vpCenter.x, vpCenter.y, 0.005, 0.005);
+    const vpRect = new OpenSeadragon.Rect(
+      vpCenter.x,
+      vpCenter.y,
+      0.0025,
+      0.0025,
+    );
 
     // 4) Create the hotspot element
     const elt = document.createElement("div");
