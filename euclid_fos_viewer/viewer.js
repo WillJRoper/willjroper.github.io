@@ -5,6 +5,7 @@ let regions       = {};
 let currentKey    = MAIN_KEY;
 let idleTimer;
 let viewer;
+let hotspotTrackers = [];
 
 /** Initialize the OpenSeadragon viewer */
 function initViewer() {
@@ -50,6 +51,13 @@ function initViewer() {
 
 }
 
+/** Clear all hotspots and trackers */
+function clearHotspots() {
+  viewer.clearOverlays();
+  hotspotTrackers.forEach(tr => tr.destroy());
+  hotspotTrackers = [];
+}
+
 /** Load regions.yaml and kick things off */
 function loadRegions() {
   fetch('regions.yaml')
@@ -69,7 +77,7 @@ function openMainImage() {
 
 /** Draw hotspots for a given key */
 function renderRegions(key) {
-  viewer.clearOverlays();
+  clearHotspots();
 
   (regions[key] || []).forEach(def => {
     // 2) Find the region center in viewport coordinates
@@ -94,16 +102,13 @@ function renderRegions(key) {
     viewer.addOverlay(elt, vpRect);
 
     // 6) Attach the MouseTracker for clicks
-    new OpenSeadragon.MouseTracker({
+    const tracker = new OpenSeadragon.MouseTracker({
       element: elt,
       clickHandler: () => switchTo(def.target)
-    }).setTracking(true);
+    });
+    tracker.setTracking(true);
+    hotspotTrackers.push(tracker);
   });
-}
-
-/** Remove all existing hotspot elements */
-function clearHotspots() {
-  document.querySelectorAll('.region-hotspot').forEach(e => e.remove());
 }
 
 /** Handler when a hotspot is clicked */
