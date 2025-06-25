@@ -21,6 +21,7 @@ function initViewer() {
     element: "viewer",
     prefixUrl:
       "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
+    fullPage: true,
 
     // Start 4× zoom when the image opens:
     defaultZoomLevel: defaultZoom,
@@ -57,7 +58,7 @@ function initViewer() {
     clearHotspots();
     renderRegions(currentKey); // draw hotspots
     toggleBackButton(); // show/hide back-arrow
-    document.getElementById("viewer").style.opacity = 1; // fade back in
+    document.querySelector("#viewer .openseadragon-canvas").style.opacity = 1;
   });
 
   // Watch zoom changes to catch when we should go back
@@ -174,8 +175,8 @@ function switchTo(key) {
   clearTimeout(idleTimer);
 
   // Fade out
-  const viewerEl = document.getElementById("viewer");
-  viewerEl.style.opacity = 0;
+  const osdCanvas = document.querySelector("#viewer .openseadragon-canvas");
+  osdCanvas.style.opacity = 0;
 
   // Wait for the CSS fade (100ms)
   setTimeout(() => {
@@ -236,8 +237,8 @@ function returnToHome() {
   }
 
   // Fade out
-  const viewerEl = document.getElementById("viewer");
-  viewerEl.style.opacity = 0;
+  const osdCanvas = document.querySelector("#viewer .openseadragon-canvas");
+  osdCanvas.style.opacity = 0;
 
   // Wait for the CSS fade (100ms)
   setTimeout(() => {
@@ -281,8 +282,8 @@ function returnTo() {
   clearTimeout(idleTimer);
 
   // Fade out
-  const viewerEl = document.getElementById("viewer");
-  viewerEl.style.opacity = 0;
+  const osdCanvas = document.querySelector("#viewer .openseadragon-canvas");
+  osdCanvas.style.opacity = 0;
 
   // Wait for the CSS fade (100ms)
   setTimeout(() => {
