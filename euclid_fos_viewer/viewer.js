@@ -117,6 +117,11 @@ function switchTo(key) {
   const file = key === MAIN_KEY ? 'euclid.dzi' : `${key}.dzi`;
   console.log('switchTo', key, file);
 
+  /* Close existing image if any */ 
+  if (viewer.world.getItemCount() > 0) { 
+    viewer.close();
+  }
+
   viewer.open(`${key}/${file}`);
   viewer.addOnceHandler('open', () => {
     maybeRestoreHome(key);
