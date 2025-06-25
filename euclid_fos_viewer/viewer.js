@@ -134,24 +134,27 @@ function toggleBackButton() {
   }
 }
 
-/** Switch the viewer to another DZI without killing gesture handlers */
+/** Completely rebuild the viewer to avoid stacked gesture handlers */
 function switchTo(key) {
-  // Restart the idle timer
+  // Abort any pending “return to main”
   clearTimeout(idleTimer);
 
-  // Update the current key
+  // If there’s an existing viewer, tear it down
+  if (viewer) {
+    console.log('Destroying old viewer instance');
+    viewer.destroy();             // removes canvas, handlers, overlays
+  }
+
+  // Reset the state
   currentKey = key;
+  console.log('switchTo', key);
 
-  // Determine filename
+  // Re-init OpenSeadragon viewer & handlers
+  initViewer();
+
+  // Now open the new DZI
   const file = key === MAIN_KEY ? 'euclid.dzi' : `${key}.dzi`;
-  console.log('switchTo', key, file);
-
-  // 1) Remove only the old tile sources (preserves canvas & gestures)
-  console.log('Removing old tiled images');
-  viewer.world.removeAll();
-
-  // 3) Open the new DZI (triggers your single “open” handler)
-  console.log('Opening new DZI:', `${key}/${file}`);
+  console.log('Opening new viewer for', key, file);
   viewer.open(`${key}/${file}`);
 }
 
