@@ -159,6 +159,25 @@
       width: 28px;
       height: 28px;
     }
+
+    /* Logos at bottom-right corner */
+    #logoBar {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      /* space between logos */
+      align-items: center;
+      z-index: 2000;
+    }
+
+    #logoBar .logo {
+      height: 6rem;
+      /* adjust to whatever height you like */
+      width: auto;
+      object-fit: contain;
+    }
   </style>
 </head>
 
@@ -190,6 +209,12 @@
     <button id="saveHome">Set Home View</button>
   </div>
   <script type="module" src="viewer.js" defer></script>
+
+  <!-- Logo bar in bottom-right -->
+  <div id="logoBar">
+    <img src="logos/EC_logos_official_white_with_text.png" alt="Logo 1" class="logo" />
+    <img src="logos/FOS Future Lab - LOGO - Dark Backgrounds.png" alt="Logo 2" class="logo" />
+  </div>
 </body>
 
 </html>
