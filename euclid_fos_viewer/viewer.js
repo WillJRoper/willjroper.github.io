@@ -19,15 +19,27 @@ function initViewer() {
     maxZoomPixelRatio: 4,
     
     // (optional) prevent zooming all the way out too far:
-    minZoomImageRatio: 0.25,  
+    minZoomImageRatio: 0.5,  
 
+    // Show the navigator panel
     showNavigator: true,
+
+    // Desktop gesture settings
     gestureSettingsMouse: {
       scrollToZoom: true,
       clickToZoom: false,
       dblClickToZoom: false,
       pinchToZoom: true
-    }
+    },
+
+    // Mobile gesture settings 
+    gestureSettingsTouch: {
+      scrollToZoom: false,
+      pinchToZoom: true,
+      clickToZoom: false,
+      dblClickToZoom: false,
+      flickEnabled: true
+    },
   });
 
   // Add the handlers
@@ -112,22 +124,21 @@ function toggleBackButton() {
 
 /** Switch the viewer to another DZI */
 function switchTo(key) {
+
+  /** Restart the idle timer */
   clearTimeout(idleTimer);
+
+  /** Set the current key */
   currentKey = key;
+
+  /* Handle the stupid naming convention I used for the main image while 
+   * Getting the file we need to open. */
   const file = key === MAIN_KEY ? 'euclid.dzi' : `${key}.dzi`;
+
   console.log('switchTo', key, file);
 
-  /* Close existing image if any */ 
-  if (viewer.world.getItemCount() > 0) { 
-    viewer.close();
-  }
-
+  /** Open the new DZI */
   viewer.open(`${key}/${file}`);
-  viewer.addOnceHandler('open', () => {
-    maybeRestoreHome(key);
-    renderRegions(key);
-    scheduleReturnMain();
-  });
 }
 
 /** Restore saved home view if any */
