@@ -20,7 +20,7 @@ function initViewer() {
       "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
 
     // Start 4× zoom when the image opens:
-    defaultZoomLevel: 1,
+    defaultZoomLevel: 0.5,
 
     // Never allow zooming in past 4×:
     maxZoomPixelRatio: 4,

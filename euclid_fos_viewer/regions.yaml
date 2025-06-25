@@ -20,6 +20,18 @@ main:
     x_px: 12169
     y_px: 3360
     radius_px: 609.1746465505603
+  - name: Perseus
+    target: perseus
+    x_px: 6112
+    y_px: 2099
+  - name: Euclid Deep Field South
+    target: south_deep_field
+    x_px: 18035
+    y_px: 1107
+  - name: Einstein ring
+    target: einstien_ring
+    x_px: 7078
+    y_px: 4334
 
 ngc_2188:
   - name: interacting_galaxies
@@ -38,3 +50,15 @@ abell_3381:
     x_px: 1043
     y_px: 1504
     radius_px: 11.616504716057314
+
+south_deep_field:
+  - name: Euclid Deep Field South (16x)
+    target: south_deep_field_16
+    x_px: 6377
+    y_px: 14382
+
+south_deep_field_16:
+  - name: Euclid Deep Field South (70x)
+    target: south_deep_field_70
+    x_px: 8072
+    y_px: 7998
