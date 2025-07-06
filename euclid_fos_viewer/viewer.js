@@ -12,10 +12,6 @@ let history = [];
 let viewHistory = [];
 let defaultZoom = 1.0;
 let zoomReturnArmed = false;
-let canvasOverlay;
-let iconImg = new Image();
-iconImg.src = "clickMe-512px.png"; // your downsampled PNG
-let currentHotspotDefs = [];
 
 /** Initialize the OpenSeadragon viewer
  *
@@ -27,19 +23,28 @@ function initViewer() {
     prefixUrl:
       "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
     fullPage: true,
-    blendTime: 0,
-    animationTime: 0,
-    immediateRender: true,
+
+    // Start 4× zoom when the image opens:
     defaultZoomLevel: defaultZoom,
+
+    // Never allow zooming in past 4×:
     maxZoomPixelRatio: 4,
+
+    // (optional) prevent zooming all the way out too far:
     minZoomImageRatio: 0.45,
+
+    // Show the navigator panel
     showNavigator: false,
+
+    // Desktop gesture settings
     gestureSettingsMouse: {
       scrollToZoom: true,
       clickToZoom: false,
       dblClickToZoom: false,
       pinchToZoom: true,
     },
+
+    // Mobile gesture settings
     gestureSettingsTouch: {
       scrollToZoom: false,
       pinchToZoom: true,
@@ -49,23 +54,11 @@ function initViewer() {
     },
   });
 
+  // Add the handlers
   viewer.addHandler("open", () => {
-    // clear any old overlay
-    if (canvasOverlay) {
-      canvasOverlay.clear();
-    }
-    // create a new CanvasOverlay
-    canvasOverlay = OpenSeadragonCanvasOverlay(viewer);
-
-    // redraw on every pan/zoom
-    canvasOverlay.canvas.addHandler("update", drawHotspots);
-
-    // global click handler
-    viewer.addHandler("canvas-click", onCanvasClick);
-
-    // now call renderRegions to set up defs & draw immediately
-    renderRegions(currentKey);
-    toggleBackButton();
+    clearHotspots();
+    renderRegions(currentKey); // draw hotspots
+    toggleBackButton(); // show/hide back-arrow
     document.querySelector("#viewer .openseadragon-canvas").style.opacity = 1;
     zoomReturnArmed = true;
   });
@@ -130,73 +123,33 @@ function setDefaultZoom(zoom) {
  * This function is called whenever a new image is opened in the viewer
  * and it renders the hotspots defined in the regions.yaml file for that key.
  */
-/** Draw hotspots for a given key. */
 function renderRegions(key) {
-  currentHotspotDefs = regions[key] || [];
-  // force an immediate draw (so you don't wait for the next pan/zoom)
-  drawHotspots({
-    context: canvasOverlay.context,
-    viewportToViewerElement: canvasOverlay.viewportToViewerElement,
-  });
-}
-
-/** Internal: draw all currentHotspotDefs into the overlay canvas */
-function drawHotspots(event) {
-  const ctx = event.context;
-  const toViewer = event.viewportToViewerElement;
-  const defs = currentHotspotDefs;
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-  // get full image width in px
-  const tiledImage = viewer.world.getItemAt(0);
-  if (!tiledImage) return;
-  const imgW = tiledImage.getContentSize().x;
-
-  // ← tweak this to resize your hotspots
-  const hotspotPxSize = 40;
-  const half = hotspotPxSize / 2;
-
+  const defs = regions[key] || [];
   defs.forEach((def) => {
+    // 1) Compute the region center in viewport coords
     const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
-    const vpPt = viewer.viewport.imageToViewportCoordinates(imgPt);
-    const screenPt = toViewer(vpPt);
+    const vpCenter = viewer.viewport.imageToViewportCoordinates(imgPt);
 
-    ctx.drawImage(
-      iconImg,
-      screenPt.x - half,
-      screenPt.y - half,
-      hotspotPxSize,
-      hotspotPxSize,
-    );
-  });
-}
+    // 2) Build a tiny viewport‐space rect around that point
+    const vpRect = new OpenSeadragon.Rect(vpCenter.x, vpCenter.y, 0.001, 0.001);
 
-/** Internal: hit-test clicks against currentHotspotDefs */
-function onCanvasClick(evt) {
-  const point = evt.position; // in viewer‐element px
-  const defs = currentHotspotDefs;
+    // 3) Create your hotspot element
+    const elt = document.createElement("div");
+    elt.className = "region-hotspot";
 
-  const tiledImage = viewer.world.getItemAt(0);
-  if (!tiledImage) return;
-  const imgW = tiledImage.getContentSize().x;
+    // 4) Add it centered by OSD (no CSS translate needed)
+    viewer.addOverlay(elt, vpRect, OpenSeadragon.Placement.CENTER);
 
-  const hotspotPxSize = 40;
-  const half = hotspotPxSize / 2;
-
-  defs.forEach((def) => {
-    const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
-    const vpPt = viewer.viewport.imageToViewportCoordinates(imgPt);
-    const screenPt = canvasOverlay.viewportToViewerElement(vpPt);
-
-    if (
-      point.x >= screenPt.x - half &&
-      point.x <= screenPt.x + half &&
-      point.y >= screenPt.y - half &&
-      point.y <= screenPt.y + half
-    ) {
-      setDefaultZoom(def.default_zoom || defaultZoom);
-      switchTo(def.target);
-    }
+    // 5) Attach click handling
+    const tracker = new OpenSeadragon.MouseTracker({
+      element: elt,
+      clickHandler: () => {
+        setDefaultZoom(def.default_zoom || defaultZoom);
+        switchTo(def.target);
+      },
+    });
+    tracker.setTracking(true);
+    hotspotTrackers.push(tracker);
   });
 }
 
