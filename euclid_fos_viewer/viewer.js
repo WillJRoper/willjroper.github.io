@@ -125,22 +125,30 @@ function setDefaultZoom(zoom) {
  */
 function renderRegions(key) {
   const defs = regions[key] || [];
+  // ← change this to make your hotspots bigger/smaller (viewport fractions)
+  const hotspotVPsize = 0.01;
+
   defs.forEach((def) => {
-    // 1) Compute the region center in viewport coords
+    // 1) find center in viewport coords
     const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
     const vpCenter = viewer.viewport.imageToViewportCoordinates(imgPt);
 
-    // 2) Build a tiny viewport‐space rect around that point
-    const vpRect = new OpenSeadragon.Rect(vpCenter.x, vpCenter.y, 0.1, 0.1);
+    // 2) build a square viewport‐space Rect of your chosen size
+    const vpRect = new OpenSeadragon.Rect(
+      vpCenter.x,
+      vpCenter.y,
+      hotspotVPsize,
+      hotspotVPsize,
+    );
 
-    // 3) Create your hotspot element
+    // 3) make your element
     const elt = document.createElement("div");
     elt.className = "region-hotspot";
 
-    // 4) Add it centered by OSD (no CSS translate needed)
+    // 4) addOverlay with CENTER so the Rect is centered on vpCenter
     viewer.addOverlay(elt, vpRect, OpenSeadragon.Placement.CENTER);
 
-    // 5) Attach click handling
+    // 5) attach click‐handler
     const tracker = new OpenSeadragon.MouseTracker({
       element: elt,
       clickHandler: () => {
