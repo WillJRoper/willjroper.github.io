@@ -28,13 +28,13 @@ function initViewer() {
     defaultZoomLevel: defaultZoom,
 
     // Never allow zooming in past 4×:
-    maxZoomPixelRatio: 4,
+    maxZoomPixelRatio: 1,
 
     // (optional) prevent zooming all the way out too far:
     minZoomImageRatio: 0.45,
 
     // Show the navigator panel
-    showNavigator: true,
+    showNavigator: false,
 
     // Desktop gesture settings
     gestureSettingsMouse: {
@@ -63,22 +63,22 @@ function initViewer() {
     zoomReturnArmed = true;
   });
 
-  // Watch zoom changes to catch when we should go back
-  viewer.addHandler("zoom", (evt) => {
-    // Get the viewport and zoom level
-    const vp = viewer.viewport;
-    const minZ = vp.getMinZoom();
-    const curZ = evt.zoom;
-
-    // When user zooms out to (or below) that minimum, go back
-    if (zoomReturnArmed && curZ <= minZ + 1e-6) {
-      zoomReturnArmed = false;
-      // guard so we only trigger once per “reaching min”
-      if (currentKey !== MAIN_KEY) {
-        zoomReturnTo();
-      }
-    }
-  });
+  // // Watch zoom changes to catch when we should go back
+  // viewer.addHandler("zoom", (evt) => {
+  //   // Get the viewport and zoom level
+  //   const vp = viewer.viewport;
+  //   const minZ = vp.getMinZoom();
+  //   const curZ = evt.zoom;
+  //
+  //   // When user zooms out to (or below) that minimum, go back
+  //   if (zoomReturnArmed && curZ <= minZ + 1e-6) {
+  //     zoomReturnArmed = false;
+  //     // guard so we only trigger once per “reaching min”
+  //     if (currentKey !== MAIN_KEY) {
+  //       zoomReturnTo();
+  //     }
+  //   }
+  // });
 
   // Make sure the idle timer is reset on any interaction
   const container = document.getElementById("viewer");
