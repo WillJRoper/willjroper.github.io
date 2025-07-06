@@ -39,34 +39,29 @@
     }
 
     .region-hotspot {
-      /* OSD handles pos+size via addOverlay */
       position: absolute;
       pointer-events: auto;
       cursor: pointer;
       z-index: 10000;
 
-      /* fixed icon size */
       width: 24px;
       height: 24px;
 
-      /* your logo only */
+      /* logo-only background */
       background: url("clickMe.png") no-repeat center center;
       background-size: contain;
 
-      /* center on the target point */
-      transform: translate(-50%, -50%);
+      /* hint to GPU for smoother transforms */
+      will-change: transform;
 
-      /* animate both scaling and glow */
+      /* animate scale + glow on hover */
       transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
     }
 
     .region-hotspot:hover {
-      /* grow */
-      transform: translate(-50%, -50%) scale(1.1);
-
-      /* glow */
+      transform: scale(1.1);
       box-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
     }
 
