@@ -10,7 +10,7 @@ let hotspotTrackers = [];
 let regions;
 let history = [];
 let viewHistory = [];
-let defaultZoom = 0.5;
+let defaultZoom = 1.0;
 let zoomReturnArmed = false;
 
 /** Initialize the OpenSeadragon viewer
@@ -28,7 +28,7 @@ function initViewer() {
     defaultZoomLevel: defaultZoom,
 
     // Never allow zooming in past 4×:
-    maxZoomPixelRatio: 1,
+    maxZoomPixelRatio: 4,
 
     // (optional) prevent zooming all the way out too far:
     minZoomImageRatio: 0.45,
