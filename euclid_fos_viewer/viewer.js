@@ -24,7 +24,7 @@ function initViewer() {
       "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.0.0/images/",
     fullPage: true,
 
-    // Start 4× zoom when the image opens:
+    // Start with the main image:
     defaultZoomLevel: defaultZoom,
 
     // Never allow zooming in past 4×:
@@ -104,6 +104,7 @@ function clearHotspots() {
 async function loadRegions() {
   try {
     regions = await Regions.load("regions.yaml");
+    console.log("All regions:", regions);
   } catch (err) {
     console.error("Failed to load regions:", err);
   }
@@ -125,19 +126,31 @@ function setDefaultZoom(zoom) {
  */
 function renderRegions(key) {
   const defs = regions[key] || [];
+
+  // Get the full image pixel width so we can turn px→viewport units
+  const tiledImage = viewer.world.getItemAt(0);
+  const imgWidth = tiledImage ? tiledImage.getContentSize().x : 1; // fallback so we don’t divide by zero
+
   defs.forEach((def) => {
-    // 1) Compute the region center in viewport coords
+    // 1) Find the region center in viewport coords
     const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
     const vpCenter = viewer.viewport.imageToViewportCoordinates(imgPt);
 
-    // 2) Build a tiny viewport‐space rect around that point
-    const vpRect = new OpenSeadragon.Rect(vpCenter.x, vpCenter.y, 0.1, 0.1);
+    console.log("Adding hotspot which should have size", def.hotspot_size);
 
-    // 3) Create your hotspot element
+    // 2) Build a viewport‐space rect using our computed vpSize
+    const vpRect = new OpenSeadragon.Rect(
+      vpCenter.x,
+      vpCenter.y,
+      def.hotspot_size / imgWidth,
+      def.hotspot_size / imgWidth,
+    );
+
+    // 3) Create & style the hotspot
     const elt = document.createElement("div");
     elt.className = "region-hotspot";
 
-    // 4) Add it centered by OSD (no CSS translate needed)
+    // 4) Add it centered by OSD
     viewer.addOverlay(elt, vpRect, OpenSeadragon.Placement.CENTER);
 
     // 5) Attach click handling
