@@ -54,21 +54,13 @@ function initViewer() {
     },
   });
 
+  // Add the handlers
   viewer.addHandler("open", () => {
-    // 1) clear any old hotspots
     clearHotspots();
-
-    // 2) force the image to fill the viewer
-    //    (you can still use defaultZoom elsewhere if you want)
-    viewer.viewport.goHome(true);
-
-    // 3) once that animation is done, THEN draw your hotspots
-    viewer.addOnceHandler("animation-finish", () => {
-      renderRegions(currentKey);
-      toggleBackButton();
-      document.querySelector("#viewer .openseadragon-canvas").style.opacity = 1;
-      zoomReturnArmed = true;
-    });
+    renderRegions(currentKey); // draw hotspots
+    toggleBackButton(); // show/hide back-arrow
+    document.querySelector("#viewer .openseadragon-canvas").style.opacity = 1;
+    zoomReturnArmed = true;
   });
 
   // // Watch zoom changes to catch when we should go back
@@ -133,15 +125,25 @@ function setDefaultZoom(zoom) {
  */
 function renderRegions(key) {
   const defs = regions[key] || [];
-  // ← change this to make your hotspots bigger/smaller (viewport fractions)
-  const hotspotVPsize = 0.01;
+  // If the image isn’t loaded yet, bail out
+  if (!viewer.world || viewer.world.getItemCount() === 0) return;
+
+  // 1) Grab the underlying tiledImage so we can ask its pixel size
+  const tiledImage = viewer.world.getItemAt(0);
+  const { x: imgW } = tiledImage.getContentSize(); // full image width in px
+
+  // ← Tweak *this* number to change your hotspot diameter (in screen‐pixels at zoom=1)
+  const hotspotPxSize = 40;
+
+  // 2) Convert that px size into *viewport* units
+  const hotspotVPsize = hotspotPxSize / imgW;
 
   defs.forEach((def) => {
-    // 1) find center in viewport coords
+    // 3) Find the center in viewport‐space
     const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
     const vpCenter = viewer.viewport.imageToViewportCoordinates(imgPt);
 
-    // 2) build a square viewport‐space Rect of your chosen size
+    // 4) Build a square viewport‐space rect of exactly the right size
     const vpRect = new OpenSeadragon.Rect(
       vpCenter.x,
       vpCenter.y,
@@ -149,14 +151,14 @@ function renderRegions(key) {
       hotspotVPsize,
     );
 
-    // 3) make your element
+    // 5) Create & style the element
     const elt = document.createElement("div");
     elt.className = "region-hotspot";
 
-    // 4) addOverlay with CENTER so the Rect is centered on vpCenter
+    // 6) Add it centered at vpCenter; OSD will size it to vpRect
     viewer.addOverlay(elt, vpRect, OpenSeadragon.Placement.CENTER);
 
-    // 5) attach click‐handler
+    // 7) Hook up clicks
     const tracker = new OpenSeadragon.MouseTracker({
       element: elt,
       clickHandler: () => {
