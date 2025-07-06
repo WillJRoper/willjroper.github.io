@@ -124,21 +124,28 @@ function setDefaultZoom(zoom) {
  * and it renders the hotspots defined in the regions.yaml file for that key.
  */
 function renderRegions(key) {
-  (regions[key] || []).forEach((def) => {
-    // … (steps 1–3 as before) …
+  const defs = regions[key] || [];
+  defs.forEach((def) => {
+    // 1) Find the region center in viewport coordinates
+    const imgPt = new OpenSeadragon.Point(def.x_px, def.y_px);
+    const vpCenter = viewer.viewport.imageToViewportCoordinates(imgPt);
 
-    // 4) Create an <img> instead of a <div>
-    const elt = document.createElement("img");
-    elt.src = "clickMe.png"; // point to your image
-    elt.className = "region-hotspot-image"; // optional CSS class
-    // you may want to explicitly size it:
-    elt.style.width = "20px";
-    elt.style.height = "20px";
+    // 2) Build a small viewport‐space rectangle centered on that point
+    const vpRect = new OpenSeadragon.Rect(
+      vpCenter.x,
+      vpCenter.y,
+      0.0025,
+      0.0025,
+    );
 
-    // 5) Add it as an overlay
+    // 3) Create the hotspot <div>
+    const elt = document.createElement("div");
+    elt.className = "region-hotspot";
+
+    // 4) Add it as an overlay, using the very vpRect you just built
     viewer.addOverlay(elt, vpRect);
 
-    // 6) Attach the MouseTracker
+    // 5) Attach click‐handling
     const tracker = new OpenSeadragon.MouseTracker({
       element: elt,
       clickHandler: () => {

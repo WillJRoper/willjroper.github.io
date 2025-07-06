@@ -39,22 +39,20 @@
     }
 
     .region-hotspot {
-      /* Let OSD size it via addOverlay */
+      /* OSD’ll size + position it via addOverlay */
       position: absolute;
       pointer-events: auto;
       cursor: pointer;
       z-index: 10000;
 
-      /* size your hotspot (OSD will still position it) */
+      /* size of the hotspot box */
       width: 24px;
       height: 24px;
 
-      /* 🎨 Two backgrounds: icon above the gradient */
+      /* icon on top of glassy gradient */
       background-image:
         url("clickMe.png"),
-        /* top layer */
         radial-gradient(circle at 30% 30%,
-          /* bottom layer */
           rgba(255, 255, 255, 0.6) 0%,
           rgba(255, 255, 255, 0.2) 60%,
           rgba(255, 255, 255, 0.05) 90%);
@@ -66,23 +64,20 @@
         60% 60%,
         cover;
 
-      /* Border and glow */
+      /* border + glow */
       border: 1px solid rgba(255, 255, 255, 0.8);
       box-shadow:
         inset 0 0 8px rgba(255, 255, 255, 0.7),
-        /* inner light */
         0 0 10px rgba(255, 255, 255, 0.4);
-      /* outer glow */
 
-      /* Fully round */
+      /* round + center on point */
       border-radius: 50%;
+      transform: translate(-50%, -50%);
 
-      /* Smooth hover */
+      /* smooth hover */
       transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
-      transform: translate(-50%, -50%);
-      /* center on the point */
     }
 
     .region-hotspot:hover {
