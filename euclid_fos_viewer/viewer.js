@@ -54,13 +54,21 @@ function initViewer() {
     },
   });
 
-  // Add the handlers
   viewer.addHandler("open", () => {
+    // 1) clear any old hotspots
     clearHotspots();
-    renderRegions(currentKey); // draw hotspots
-    toggleBackButton(); // show/hide back-arrow
-    document.querySelector("#viewer .openseadragon-canvas").style.opacity = 1;
-    zoomReturnArmed = true;
+
+    // 2) force the image to fill the viewer
+    //    (you can still use defaultZoom elsewhere if you want)
+    viewer.viewport.goHome(true);
+
+    // 3) once that animation is done, THEN draw your hotspots
+    viewer.addOnceHandler("animation-finish", () => {
+      renderRegions(currentKey);
+      toggleBackButton();
+      document.querySelector("#viewer .openseadragon-canvas").style.opacity = 1;
+      zoomReturnArmed = true;
+    });
   });
 
   // // Watch zoom changes to catch when we should go back
