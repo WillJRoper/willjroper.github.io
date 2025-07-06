@@ -38,26 +38,28 @@
       transition: opacity 0.1s ease;
     }
 
-    /* viewer.css — your hotspot styling */
     .region-hotspot {
       position: absolute;
       pointer-events: auto;
       cursor: pointer;
       z-index: 10000;
 
-      /* no fixed width/height here—OSD will size it by vpRect */
+      /* logo-only background */
       background: url("clickMe-512px.png") no-repeat center center;
       background-size: contain;
 
+      /* hint to GPU for smoother transforms */
       will-change: transform;
+
+      /* animate scale + glow on hover */
       transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
     }
 
     .region-hotspot:hover {
-      transform: scale(1.2);
-      box-shadow: 0 0 16px rgba(255, 255, 255, 0.6);
+      transform: scale(1.1);
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
     }
 
     #controls {
@@ -200,6 +202,7 @@
       <button id="saveHome">Set Home View</button>
     </div>
     <script type="module" src="viewer.js" defer></script>
+
     <!-- Logo bar in bottom-right -->
     <div id="logoBar">
       <img src="logos/EC_logos_official_white_with_text.png" alt="Logo 1" class="logo" />
