@@ -36,8 +36,6 @@ function initViewer() {
     // Show the navigator panel
     showNavigator: false,
 
-    showFullPageControl: false,
-
     // Desktop gesture settings
     gestureSettingsMouse: {
       scrollToZoom: true,
