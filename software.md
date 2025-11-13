@@ -22,6 +22,22 @@ I develop and contribute to a range of software tools for astrophysical research
 
 **Repository:** [https://github.com/WillJRoper/mega](https://github.com/WillJRoper/mega)
 
+### GravyLensing
+
+<p align="center">
+  <img src="{{ '/pictures/gravylensing_demo.jpeg'  }}" alt="GravyLensing Real-time Demo" width="60%">
+</p>
+
+[GravyLensing](https://github.com/WillJRoper/GravyLensing) is a real-time gravitational lensing demonstration application written in C++ that I developed for the Goodwood Festival of Speed Future Lab. The application uses webcam input to detect people and applies FFT-based gravitational lensing effects to background images, creating an interactive experience where visitors can see themselves acting as a gravitational lens, distorting space and bending light around them just like massive objects in the Universe.
+
+**Key Features:**
+- Real-time person segmentation using TorchScript models
+- FFT-based gravitational lens calculations with FFTW3
+- Multi-threaded processing with OpenMP for smooth performance
+- Qt6 graphical interface with support for multiple background images
+
+**Repository:** [https://github.com/WillJRoper/GravyLensing](https://github.com/WillJRoper/GravyLensing)
+
 ## Python Packages
 
 I maintain several Python packages on PyPI, ranging from astrophysics tools to general-purpose utilities:

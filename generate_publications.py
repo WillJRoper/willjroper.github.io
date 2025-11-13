@@ -230,7 +230,7 @@ def format_publication(pub: Dict) -> str:
     # Authors
     if 'author' in pub:
         authors = format_authors(pub['author'])
-        lines.append(f"*{authors}*")
+        lines.append(f"_{authors}_")
 
     # Publication details
     details = []

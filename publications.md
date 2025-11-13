@@ -72,6 +72,7 @@ _Stephen Wilkins, Jussi K. Kuusisto, Dimitrios Irodotou, Shihong Liao, Christoph
 The Open Journal of Astrophysics, 8, 29, 2025
 [DOI](https://doi.org/10.33232/001c.132374) | [ADS](https://ui.adsabs.harvard.edu/abs/2025OJAp....8E..29W)
 
+
 ## 2024
 
 **EPOCHS Paper V. The dependence of galaxy formation on galaxy structure at z < 7 from JWST observations**
@@ -89,7 +90,7 @@ _Stephen M. Wilkins, Sophie L. Newman, & Will J. Roper_
 arXiv e-prints, 2024
 [DOI](https://doi.org/10.48550/arXiv.2403.20144) | [ADS](https://ui.adsabs.harvard.edu/abs/2024arXiv240320144W)
 
-**EPOCHS VI: the size and shape evolution of galaxies since z 8 with JWST Observations**
+**EPOCHS VI: the size and shape evolution of galaxies since z   8 with JWST Observations**
 _K. Ormerod, C. J. Conselice, N. J. Adams, T. Harvey, D. Austin, J. Trussler, L. Ferreira, J. Caruana, G. Lucatelli, Q. Li, & W. J. Roper_
 MNRAS, 527(3), 6110-6125, 2024
 [DOI](https://doi.org/10.1093/mnras/stad3597) | [ADS](https://ui.adsabs.harvard.edu/abs/2024MNRAS.527.6110O)
@@ -103,6 +104,7 @@ MNRAS, 527(3), 7965-7973, 2024
 _Aswin P. Vijayan, Peter A. Thomas, Christopher C. Lovell, Stephen M. Wilkins, Thomas R. Greve, Dimitrios Irodotou, William J. Roper, & Louise T. C. Seeyave_
 MNRAS, 527(3), 7337-7354, 2024
 [DOI](https://doi.org/10.1093/mnras/stad3594) | [ADS](https://ui.adsabs.harvard.edu/abs/2024MNRAS.527.7337V)
+
 
 ## 2023
 
@@ -121,7 +123,7 @@ _Stephen M. Wilkins, Jack C. Turner, Micaela B. Bagley, Steven L. Finkelstein, R
 arXiv e-prints, 2023
 [DOI](https://doi.org/10.48550/arXiv.2311.08065) | [ADS](https://ui.adsabs.harvard.edu/abs/2023arXiv231108065W)
 
-**A Tale of Birds and Bug Fixes: Computational Astrophysics in the Epoch of Reionisation**
+**Untitled**
 _William Roper_
 PhD Thesis, University of Sussex, UK, 2023
 [ADS](https://ui.adsabs.harvard.edu/abs/2023PhDT........23R)
@@ -166,6 +168,7 @@ _Stephen M. Wilkins, Aswin P. Vijayan, Christopher C. Lovell, William J. Roper, 
 MNRAS, 518(3), 3935-3948, 2023
 [DOI](https://doi.org/10.1093/mnras/stac3281) | [ADS](https://ui.adsabs.harvard.edu/abs/2023MNRAS.518.3935W)
 
+
 ## 2022
 
 **First Light and Reionisation Epoch Simulations (FLARES) - VI. The colour evolution of galaxies z = 5-15**
@@ -198,6 +201,7 @@ _William J. Roper, Todd L. Cook, Violetta Korbina, Jussi K. Kuusisto, Roisin O'C
 arXiv e-prints, 2022
 [DOI](https://doi.org/10.48550/arXiv.2203.16609) | [ADS](https://ui.adsabs.harvard.edu/abs/2022arXiv220316609R)
 
+
 ## 2021
 
 **First Light And Reionization Epoch Simulations (FLARES) - II: The photometric properties of high-redshift galaxies**
@@ -209,6 +213,7 @@ MNRAS, 501(3), 3289-3308, 2021
 _Christopher C. Lovell, Aswin P. Vijayan, Peter A. Thomas, Stephen M. Wilkins, David J. Barnes, Dimitrios Irodotou, & Will Roper_
 MNRAS, 500(2), 2127-2145, 2021
 [DOI](https://doi.org/10.1093/mnras/staa3360) | [ADS](https://ui.adsabs.harvard.edu/abs/2021MNRAS.500.2127L)
+
 
 ## 2020
 
