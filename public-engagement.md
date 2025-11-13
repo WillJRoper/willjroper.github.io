@@ -11,7 +11,7 @@ I'm passionate about making cutting-edge astrophysics research accessible and en
 ### Our Universe (Netflix, 2022)
 
 <p align="center">
-  <img src="{{ '/pictures/our_universe.png'  }}" alt="Our Universe Netflix Documentary" width="60%">
+  <img src="{{ '/pictures/our_universe.jpeg'  }}" alt="Our Universe Netflix Documentary" width="60%">
 </p>
 
 I contributed simulation data to the Netflix documentary series [Our Universe](https://www.netflix.com/title/81026629), narrated by Morgan Freeman. Working with [Lux Aeterna](https://luxaeterna.tv/), my cosmological simulations were used to create stunning CGI visualizations that bring the formation and evolution of galaxies to life for a global audience.
