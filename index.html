@@ -4,14 +4,46 @@
     <title>Dr Will Roper</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Burger Menu -->
+    <div class="burger-menu">
+        <button class="burger-icon" id="burgerToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="burger-dropdown" id="burgerDropdown">
+            <h3>Navigation</h3>
+            <div class="menu-section">
+                <h4>Pages</h4>
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="software.html"><i class="fas fa-code"></i> Software</a>
+                <a href="publications.html"><i class="fas fa-newspaper"></i> Publications</a>
+                <a href="public-engagement.html"><i class="fas fa-users"></i> Public Engagement</a>
+                <a href="games.html"><i class="fas fa-gamepad"></i> Interactive Experiences</a>
+            </div>
+            <div class="menu-section">
+                <h4>Connect</h4>
+                <a href="mailto:w.roper@sussex.ac.uk"><i class="fas fa-envelope"></i> Email</a>
+                <a href="https://twitter.com/WillJRoper" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="https://github.com/willjroper" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://www.youtube.com/channel/UCqHvI4oq6PdLR1-jU0pRyng" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+                <a href="https://www.linkedin.com/in/william-roper-b1a527189/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </div>
+    </div>
+
     <div class="video-container">
+        <!-- Video background commented out for now -->
+        <!--
         <video autoplay loop muted playsinline>
             <source src="videos/EAGLE_12.5_Mpc_box _PhysicalDM.mp4" type="video/mp4">
-            <!-- Add other source tags for different video formats (WebM, Ogg) -->
             Your browser does not support the video tag.
         </video>
+        -->
         <div class="text-overlay">
             <div class="profile-picture">
                 <img src="pictures/profile.jpeg" alt="Profile Picture">
@@ -21,19 +53,50 @@
                 <p>Computational Astrophysicist</p>
             </div>
         </div>
-        <div class="social-icons">
-          <a href="mailto:w.roper@sussex.ac.uk" target="_blank"><img src="pictures/socials/mail_white.png" alt="Email"></a>
-          <a href="https://twitter.com/WillJRoper" target="_blank"><img src="pictures/socials/Twitter_white.png" alt="Twitter"></a>
-          <a href="https://github.com/willjroper" target="_blank"><img src="pictures/socials/GitHub_white.png" alt="GitHub"></a>
-          <a href="https://www.youtube.com/channel/UCqHvI4oq6PdLR1-jU0pRyng" target="_blank"><img src="pictures/socials/YT_white.png" alt="YouTube"></a>
-          <a href="https://www.linkedin.com/in/william-roper-b1a527189/" target="_blank"><img src="pictures/socials/LI_white.png" alt="LinkedIn"></a>
-          <!-- Add more social media logos and links here -->
-        </div>
 
         <canvas id="canvas-overlay"></canvas>
-        
+
     </div>
-    
+
+    <!-- Control Bar (macOS dock style) -->
+    <div class="control-bar">
+        <button class="control-button" id="addParticle" title="Add Particle">
+            <i class="fas fa-plus"></i>
+        </button>
+        <button class="control-button" id="removeParticle" title="Remove Particle">
+            <i class="fas fa-minus"></i>
+        </button>
+        <button class="control-button" id="pausePlay" title="Pause/Play">
+            <i class="fas fa-pause"></i>
+        </button>
+    </div>
+
     <script src="grav.js"></script>
+    <script>
+        // Burger menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const burgerToggle = document.getElementById('burgerToggle');
+            const burgerDropdown = document.getElementById('burgerDropdown');
+
+            burgerToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                burgerDropdown.classList.toggle('active');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!burgerToggle.contains(e.target) && !burgerDropdown.contains(e.target)) {
+                    burgerDropdown.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking a link
+            burgerDropdown.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    burgerDropdown.classList.remove('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
