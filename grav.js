@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
             this.vy = vy;
             this.link = link;
             this.icon = icon; // Font Awesome unicode.
-            this.size = 40;
+            // Adjust particle size based on screen width
+            this.size = window.innerWidth <= 480 ? 28 : (window.innerWidth <= 768 ? 32 : 40);
             this.isMouseOver = false;
             this.imagePath = imagePath;
             // Pre-load image if path exists (performance optimization)
@@ -143,10 +144,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const scaleX = canvas.width / oldWidth;
         const scaleY = canvas.height / oldHeight;
 
-        // Scale all particle positions
+        // Determine new particle size based on window width
+        const newSize = window.innerWidth <= 480 ? 28 : (window.innerWidth <= 768 ? 32 : 40);
+
+        // Scale all particle positions and update sizes
         particles.forEach(particle => {
             particle.x *= scaleX;
             particle.y *= scaleY;
+            particle.size = newSize;
         });
 
         // Update center position
@@ -280,46 +285,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Event listener for handling clicks on particles
-    canvas.addEventListener('click', function (event) {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
-
-        // Flag if an icon was clicked on
-        let part_click = false;
-        
-        for (let i = 0; i < numParticles; i++) {
-            const particle = particles[i];
-            const distanceSq = (mouseX - particle.x) ** 2 + (mouseY - particle.y) ** 2;
-            const radiusSq = particle.size ** 2;
-            
-            if (distanceSq <= radiusSq) {
-
-                // The user clicked on a particle
-                part_click = true;
-                
-                // Particle clicked!
-                if (particle.link && particle.icon) {
-                    // Open the link in this tab
-                    window.open(particle.link, '_self');
-                } else if (particle.link && particle.imagePath) {
-                    // Open the link in a new tab
-                    window.open(particle.link, '_blank');
-                } else {
-                    // Do something else if there is no link associated with the particle
-                    console.log(`Particle at (${particle.x}, ${particle.y}) clicked!`);
-                }
-                break; // No need to check other particles if one is already clicked
-            }
-        }
-
-        // If it was a random click add a particle
-        if (part_click == false) {
-            addParticle(null, mouseX, mouseY);
-            numParticles++;
-        }
-    });
+    // Event listener for handling clicks on particles (desktop only)
+    if (!isTouchDevice) {
+        canvas.addEventListener('click', function (event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            handleParticleTap(mouseX, mouseY);
+        });
+    }
 
     // Update function to handle mouse events
     function handleMouseEvents(event) {
@@ -352,31 +326,66 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } else {
         // On touch devices, handle touch events for highlighting
-        canvas.addEventListener('touchstart', handleTouchEvents);
-        canvas.addEventListener('touchmove', handleTouchEvents);
-        canvas.addEventListener('touchend', () => {
+        let touchStartPos = null;
+
+        canvas.addEventListener('touchstart', function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const touch = event.touches[0];
+            touchStartPos = {
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top
+            };
+
+            // Highlight particles on touch start
+            particles.forEach(particle => {
+                const distanceSq = (touchStartPos.x - particle.x) ** 2 + (touchStartPos.y - particle.y) ** 2;
+                const radiusSq = particle.size ** 2;
+                particle.isMouseOver = distanceSq <= radiusSq;
+            });
+        });
+
+        canvas.addEventListener('touchend', function(event) {
             // Reset all particles when touch ends
             particles.forEach(particle => (particle.isMouseOver = false));
+
+            // If we had a touch start position, check if we tapped a particle
+            if (touchStartPos) {
+                // Check if this was a tap (not a drag) by seeing if position hasn't changed much
+                handleParticleTap(touchStartPos.x, touchStartPos.y);
+                touchStartPos = null;
+            }
         });
     }
 
-    // Touch event handler that doesn't freeze particles
-    function handleTouchEvents(event) {
-        event.preventDefault();
-        const rect = canvas.getBoundingClientRect();
-        const touch = event.touches[0];
-        if (!touch) return;
+    // Handle particle tap/click for navigation
+    function handleParticleTap(x, y) {
+        let part_click = false;
 
-        const touchX = touch.clientX - rect.left;
-        const touchY = touch.clientY - rect.top;
-
-        // Check if touch is over any particle (for visual feedback only)
-        particles.forEach(particle => {
-            const distanceSq = (touchX - particle.x) ** 2 + (touchY - particle.y) ** 2;
+        for (let i = 0; i < numParticles; i++) {
+            const particle = particles[i];
+            const distanceSq = (x - particle.x) ** 2 + (y - particle.y) ** 2;
             const radiusSq = particle.size ** 2;
 
-            particle.isMouseOver = distanceSq <= radiusSq;
-        });
+            if (distanceSq <= radiusSq) {
+                part_click = true;
+
+                // Particle clicked!
+                if (particle.link && particle.icon) {
+                    // Open the link in this tab
+                    window.open(particle.link, '_self');
+                } else if (particle.link && particle.imagePath) {
+                    // Open the link in a new tab
+                    window.open(particle.link, '_blank');
+                }
+                break;
+            }
+        }
+
+        // If it was a random tap, add a particle (only on desktop)
+        if (part_click == false && !isTouchDevice) {
+            addParticle(null, x, y);
+            numParticles++;
+        }
     }
     
     // Control variables for pause/play

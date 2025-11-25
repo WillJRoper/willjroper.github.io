@@ -526,47 +526,96 @@ video {
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
-    /* Larger burger menu on mobile */
+    /* Moderately sized burger menu on mobile */
     .burger-icon {
-        width: 64px;
-        height: 64px;
-        font-size: 28px;
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+        top: 16px;
+        right: 16px;
     }
 
-    /* Larger control buttons on mobile */
+    .burger-menu {
+        top: 16px;
+        right: 16px;
+    }
+
+    /* Moderately sized control buttons on mobile */
     .control-button {
-        width: 64px;
-        height: 64px;
-        font-size: 26px;
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
     }
 
     .control-bar {
-        padding: 14px 22px;
-        gap: 18px;
+        padding: 10px 16px;
+        gap: 12px;
+        bottom: 16px;
     }
 
-    /* Adjust text overlay for mobile */
+    /* Adjust text overlay for mobile - prevent overlap */
     .text-overlay {
         top: 16px;
         left: 16px;
-        right: 16px;
-        padding: 16px 20px;
-        flex-direction: column;
-        text-align: center;
+        right: 80px; /* Leave space for burger menu */
+        padding: 12px 16px;
+        flex-direction: row;
+        max-width: calc(100% - 96px);
     }
 
     .profile-picture {
-        width: 80px;
-        height: 80px;
-        margin-right: 0;
-        margin-bottom: 12px;
+        width: 60px;
+        height: 60px;
+        margin-right: 12px;
+        margin-bottom: 0;
     }
 
     .text-content h1 {
-        font-size: 24px;
+        font-size: 18px;
+        margin: 0 0 4px 0;
     }
 
     .text-content p {
-        font-size: 13px;
+        font-size: 11px;
+    }
+}
+
+/* Extra small devices (portrait phones) */
+@media (max-width: 480px) {
+    .text-overlay {
+        padding: 10px 12px;
+        right: 75px;
+        max-width: calc(100% - 85px);
+    }
+
+    .profile-picture {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+
+    .text-content h1 {
+        font-size: 16px;
+    }
+
+    .text-content p {
+        font-size: 10px;
+    }
+
+    .burger-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+
+    .control-button {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .control-bar {
+        padding: 8px 12px;
+        gap: 10px;
     }
 }
