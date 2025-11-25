@@ -157,6 +157,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add resize listener for smooth real-time resizing
     window.addEventListener('resize', handleResize);
 
+    // Detect if device supports touch (mobile/tablet)
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
     function updatePhysics() {
         // Calculate gravitational forces and update velocities
         for (let i = 0; i < numParticles; i++) {
@@ -210,8 +213,8 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < numParticles; i++) {
             const particle = particles[i];
             // Drift the particles with periodic boundary conditions
-            // Only freeze position for icons/links when hovered
-            if (!particle.isMouseOver || (!particle.link && !particle.icon && !particle.imagePath)) {
+            // Only freeze position for icons/links when hovered (and not on touch devices)
+            if (!particle.isMouseOver || isTouchDevice || (!particle.link && !particle.icon && !particle.imagePath)) {
                 particle.updatePosition();
             }
         }
@@ -227,16 +230,16 @@ document.addEventListener('DOMContentLoaded', function () {
             
             // Draw particles on the canvas in white color
             if (particle.icon) {
-                // Use Font Awesome icon
-                ctx.font = particle.size + 'px FontAwesome';
+                // Use Font Awesome icon (Font Awesome 5 uses "Font Awesome 5 Free" for solid icons)
+                ctx.font = '900 ' + particle.size + 'px "Font Awesome 5 Free"';
                 if (particle.isMouseOver) {
                     ctx.fillStyle = "rgba(255, 255, 255, 1.0)";
                 } else {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.65)";   
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
                 }
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'center';
-                
+
                 // Draw the Font Awesome icon directly using the font
                 ctx.fillText(particle.icon, particle.x, particle.y, particle.size);
                 
@@ -340,11 +343,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Add event listeners to the canvas
-    canvas.addEventListener('mousemove', handleMouseEvents);
-    canvas.addEventListener('mouseout', () => {
-        // When the mouse moves out of the canvas, reset all particles' isMouseOver to false
-        particles.forEach(particle => (particle.isMouseOver = false));
-    });
+    // Only freeze particles on hover for non-touch devices
+    if (!isTouchDevice) {
+        canvas.addEventListener('mousemove', handleMouseEvents);
+        canvas.addEventListener('mouseout', () => {
+            // When the mouse moves out of the canvas, reset all particles' isMouseOver to false
+            particles.forEach(particle => (particle.isMouseOver = false));
+        });
+    } else {
+        // On touch devices, handle touch events for highlighting
+        canvas.addEventListener('touchstart', handleTouchEvents);
+        canvas.addEventListener('touchmove', handleTouchEvents);
+        canvas.addEventListener('touchend', () => {
+            // Reset all particles when touch ends
+            particles.forEach(particle => (particle.isMouseOver = false));
+        });
+    }
+
+    // Touch event handler that doesn't freeze particles
+    function handleTouchEvents(event) {
+        event.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const touch = event.touches[0];
+        if (!touch) return;
+
+        const touchX = touch.clientX - rect.left;
+        const touchY = touch.clientY - rect.top;
+
+        // Check if touch is over any particle (for visual feedback only)
+        particles.forEach(particle => {
+            const distanceSq = (touchX - particle.x) ** 2 + (touchY - particle.y) ** 2;
+            const radiusSq = particle.size ** 2;
+
+            particle.isMouseOver = distanceSq <= radiusSq;
+        });
+    }
     
     // Control variables for pause/play
     let isPaused = false;

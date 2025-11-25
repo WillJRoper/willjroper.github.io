@@ -513,3 +513,50 @@ video {
     transform: translateX(-50%) scale(1);
     opacity: 1;
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    /* Larger burger menu on mobile */
+    .burger-icon {
+        width: 64px;
+        height: 64px;
+        font-size: 28px;
+    }
+
+    /* Larger control buttons on mobile */
+    .control-button {
+        width: 64px;
+        height: 64px;
+        font-size: 26px;
+    }
+
+    .control-bar {
+        padding: 14px 22px;
+        gap: 18px;
+    }
+
+    /* Adjust text overlay for mobile */
+    .text-overlay {
+        top: 16px;
+        left: 16px;
+        right: 16px;
+        padding: 16px 20px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-picture {
+        width: 80px;
+        height: 80px;
+        margin-right: 0;
+        margin-bottom: 12px;
+    }
+
+    .text-content h1 {
+        font-size: 24px;
+    }
+
+    .text-content p {
+        font-size: 13px;
+    }
+}
