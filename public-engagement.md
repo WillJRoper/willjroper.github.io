@@ -62,7 +62,7 @@ For many years, I led a JWST exhibit at Jodrell Bank's Bluedot Festival, engagin
 **Years:** 2019-2023 (excluding 2020 due to the pandemic)
 **Topic:** James Webb Space Telescope
 
-### Festival of Science (FOS) Future Lab
+### Festival of Speed (FOS) Future Lab
 
 I've contributed to multiple exhibits at the Festival of Science Future Lab, helping to bring the latest astrophysical discoveries to the public. Each year the Future Lab attracts >100,000 visitors over the 4 days of the festival.
 
